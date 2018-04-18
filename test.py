@@ -19,7 +19,6 @@ def get_node_json(client):
 
     for node in nodes:
         nodes_dict = dict(id = node.id,
-                          name = node.attrs['Spec']['Name'],
                           hostname = node.attrs['Description']['Hostname'],
                           ip = node.attrs['Status']['Addr'])
         nodes_list.append(nodes_dict)
@@ -55,7 +54,10 @@ if __name__ == "__main__":
         print("\n")
 
         print("Nodes")
-        [ pprint(node.attrs) for node in get_nodes(client) ]
+        pprint(get_node_json(client))
         print("=============\n")
+
+        # for container in get_containers:
+            # container.logs(stream=True)
 
         time.sleep(15)
