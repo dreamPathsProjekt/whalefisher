@@ -3,10 +3,23 @@ import time
 
 from pprint import pprint
 
-client = docker.from_env()
+def get_services(client):
+    return client.services.list()
 
-containers = client.containers.list()
+def get_service_names(client):
+    services = get_services(client)
+    return [service.name for service in services]
 
-while(True):
-    pprint(containers)
-    time.sleep(2)
+def task_names(client, service_name):
+    # return [service. service in get_services(client)]
+    pass
+
+
+
+
+if __name__ == "__main__":
+    client = docker.from_env()
+
+    while(True):
+        pprint(get_service_names(client))
+        time.sleep(2)
