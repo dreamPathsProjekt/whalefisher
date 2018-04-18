@@ -57,7 +57,9 @@ if __name__ == "__main__":
         pprint(get_node_json(client))
         print("=============\n")
 
-        # for container in get_containers:
-            # container.logs(stream=True)
+        tmp = get_containers(client)[0]
+        logs = tmp.logs(logs=True)
+
+        print(logs)
 
         time.sleep(15)
