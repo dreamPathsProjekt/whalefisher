@@ -45,12 +45,17 @@ if __name__ == "__main__":
 
     while True:
         client = docker.from_env()
+
         print("Services")
         pprint(get_service_json(client))
         print("\n")
+
         print("Containers")
         pprint(get_container_json(client))
         print("\n")
+
+        print("Nodes")
         pprint(get_node_json(client))
         print("=============\n")
-        print(5)
+
+        time.sleep(5)
