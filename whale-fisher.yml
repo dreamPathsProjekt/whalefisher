@@ -1,7 +1,7 @@
 version: "3.3"
 
 services:
-  middleware-exporter:
+  whalefisher:
     image: registry.dream:5001/whalefisher:0.1
     deploy:
       replicas: 1
