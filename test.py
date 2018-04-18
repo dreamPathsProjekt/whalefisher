@@ -6,9 +6,16 @@ from pprint import pprint
 def get_services(client):
     return client.services.list()
 
-def get_service_names(client):
+def get_service_json(client):
     services = get_services(client)
-    return [service.name for service in services]
+    return [dict(id = service.id, name = service.name) for service in services]
+
+def get_containers(client):
+    return client.containers.list()
+
+def get_container_json(client):
+    containers = get_containers(client)
+    return [dict(id = container.id, name = container.name)  for container in containers]
 
 def task_names(client, service_name):
     # return [service. service in get_services(client)]
@@ -20,6 +27,5 @@ def task_names(client, service_name):
 if __name__ == "__main__":
     client = docker.from_env()
 
-    while(True):
-        pprint(get_service_names(client))
-        time.sleep(2)
+    pprint(get_service_json(client))
+    pprint(get_container_json(client))
