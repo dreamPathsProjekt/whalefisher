@@ -1,0 +1,9 @@
+version: "3.3"
+
+services:
+  middleware-exporter:
+    image: registry.dream:5001/whalefisher:0.1
+    deploy:
+      replicas: 1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
