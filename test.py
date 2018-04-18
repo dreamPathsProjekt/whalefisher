@@ -26,6 +26,9 @@ def task_names(client, service_name):
 
 if __name__ == "__main__":
     client = docker.from_env()
-
+    print("Services")
     pprint(get_service_json(client))
+    print("\n")
+    print("Containers")
     pprint(get_container_json(client))
+    print("\n")
