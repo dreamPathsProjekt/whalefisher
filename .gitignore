@@ -11,7 +11,9 @@ __pycache__/
 env/
 build/
 develop-eggs/
-# dist/
+dist/
+bin/
+include/
 downloads/
 eggs/
 .eggs/
@@ -102,5 +104,8 @@ ENV/
 
 # vscode
 .vscode/
+
+# pip-selfcheck
+pip-selfcheck.json
 
 # test files
