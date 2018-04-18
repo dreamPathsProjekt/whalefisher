@@ -55,7 +55,7 @@ if __name__ == "__main__":
         print("\n")
 
         print("Nodes")
-        pprint(get_node_json(client))
+        [ pprint(node.attrs) for node in get_nodes(client) ]
         print("=============\n")
 
-        time.sleep(5)
+        time.sleep(15)
