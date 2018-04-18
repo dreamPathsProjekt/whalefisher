@@ -10,6 +10,23 @@ def get_service_json(client):
     services = get_services(client)
     return [dict(id = service.id, name = service.name) for service in services]
 
+def get_nodes(client):
+    return client.nodes.list()
+
+def get_node_json(client):
+    nodes = get_nodes(client)
+    nodes_list = []
+
+    for node in nodes:
+        nodes_dict = dict(id = node.id,
+                          name = node.attrs['Spec']['Name'],
+                          hostname = node.attrs['Description']['Hostname'],
+                          ip = node.attrs['Status']['Addr'])
+        nodes_list.append(nodes_dict)
+
+    return nodes_list
+
+
 def get_containers(client):
     return client.containers.list()
 
@@ -25,10 +42,15 @@ def task_names(client, service_name):
 
 
 if __name__ == "__main__":
-    client = docker.from_env()
-    print("Services")
-    pprint(get_service_json(client))
-    print("\n")
-    print("Containers")
-    pprint(get_container_json(client))
-    print("\n")
+
+    while True:
+        client = docker.from_env()
+        print("Services")
+        pprint(get_service_json(client))
+        print("\n")
+        print("Containers")
+        pprint(get_container_json(client))
+        print("\n")
+        pprint(get_node_json(client))
+        print("=============\n")
+        print(5)
