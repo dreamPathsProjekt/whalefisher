@@ -109,3 +109,7 @@ ENV/
 pip-selfcheck.json
 
 # test files
+
+# environment files
+whale_builder_pre.sh
+whale-fisher_pre.yml
