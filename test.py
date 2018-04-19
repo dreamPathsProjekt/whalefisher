@@ -69,6 +69,6 @@ if __name__ == "__main__":
         # stream means that lines are b'', may need to decode
         logs = tmp.logs(stream=True)
 
-        [print(log.strip()) for log in logs]
+        [print(str(log, 'utf-8').strip()) for log in logs]
 
         time.sleep(15)
