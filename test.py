@@ -65,8 +65,10 @@ if __name__ == "__main__":
 
         # Test Log output
         tmp = get_containers(client)[1]
-        logs = tmp.logs()
 
-        [print(log) for log in logs]
+        # stream means that lines are b'', may need to decode
+        logs = tmp.logs(stream=True)
+
+        [print(log.strip()) for log in logs]
 
         time.sleep(15)
