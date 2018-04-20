@@ -2,7 +2,8 @@ version: "3.3"
 
 services:
   whalefisher:
-    image: registry.dream:5001/whalefisher:0.1
+    # beta 6 exposes just a flask route
+    image: registry.dream:5001/whalefisher:0.1-beta6
     deploy:
       replicas: 1
     ports:
