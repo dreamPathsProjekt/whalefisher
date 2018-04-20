@@ -8,6 +8,7 @@ setup(
 
     install_requires=[
         "pyaml",
+        "flask",
         "pyinstaller",
         "docker"
     ],

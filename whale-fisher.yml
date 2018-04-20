@@ -5,5 +5,7 @@ services:
     image: registry.dream:5001/whalefisher:0.1
     deploy:
       replicas: 1
+    ports:
+      - "80:5000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

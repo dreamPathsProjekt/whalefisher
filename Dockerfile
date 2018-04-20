@@ -16,5 +16,5 @@ RUN python setup.py install
 ADD . /usr/src/whalefisher/
 
 # run server
-CMD ["python", "test.py"]
+CMD ["python", "app.py"]
 
