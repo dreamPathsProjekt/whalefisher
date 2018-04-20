@@ -1,5 +1,7 @@
 from flask import Flask
+from flask import jsonify
 from docker import client
+import json
 
 from test import get_container_json, get_containers
 
@@ -14,7 +16,7 @@ def welcome():
 
 @app.route('/containers')
 def containers_route():
-    return get_container_json(docker_client)
+    return jsonify(get_container_json(docker_client))
 
 
 @app.route('/logs')
@@ -22,7 +24,7 @@ def get_logs():
     containers = get_containers(docker_client)[2]
     logs = containers.logs(stream=True)
 
-    return [str(log, 'utf-8').strip() for log in logs]
+    yield jsonify([str(log, 'utf-8').strip() for log in logs])
 
 
 if __name__ == "__main__":
