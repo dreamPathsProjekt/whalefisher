@@ -30,7 +30,7 @@ def get_logs():
         for log in logs:
             yield str(log, 'utf-8').strip()
 
-    return Response(generate_stream(logs), mimetype="text/plain")
+    return Response(generate_stream(logs), mimetype="text/event-stream")
 
 
 if __name__ == "__main__":
