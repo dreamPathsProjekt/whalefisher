@@ -1,5 +1,7 @@
 from flask import Flask
 from flask import jsonify
+from flask import Response
+
 from docker import client
 import json
 
@@ -24,7 +26,11 @@ def get_logs():
     containers = get_containers(docker_client)[2]
     logs = containers.logs(stream=True)
 
-    yield jsonify([str(log, 'utf-8').strip() for log in logs])
+    def generate_stream(logs):
+        for log in logs:
+            yield str(log, 'utf-8').strip()
+
+    return Response(jsonify(generate_stream(logs)), mimetype="application/json")
 
 
 if __name__ == "__main__":
