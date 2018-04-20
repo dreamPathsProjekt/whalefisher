@@ -23,12 +23,12 @@ def containers_route():
 
 @app.route('/logs')
 def get_logs():
-    containers = get_containers(docker_client)[0]
+    containers = get_containers(docker_client)[2]
     logs = containers.logs(stream=True)
 
     def generate_stream(logs):
         for log in logs:
-            yield str(log, 'utf-8').strip()
+            yield str(log + '\n', 'utf-8').strip()
 
     return Response(generate_stream(logs), mimetype="text/event-stream")
 
