@@ -28,9 +28,9 @@ def get_logs():
 
     def generate_stream(logs):
         for log in logs:
-            yield str(log, 'utf-8').strip()
+            yield jsonify(str(log, 'utf-8').strip())
 
-    return Response(jsonify(generate_stream(logs)), mimetype="application/json")
+    return Response(generate_stream(logs), mimetype="application/json")
 
 
 if __name__ == "__main__":
