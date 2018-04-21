@@ -24,13 +24,13 @@ def containers_route():
 @app.route('/logs')
 def get_logs():
     containers = get_containers(docker_client)[0]
-    logs = containers.logs(timestamps=True, stream=False)
+    logs = str(containers.logs(timestamps=True, stream=False), encoding='utf-8').split('\n')
 
     # def generate_stream(logs):
     #     for log in logs:
     #         yield str(log, 'utf-8').strip() + '\n'
-
-    return jsonify(message=str(logs, 'utf-8'))
+    lines = [log for log in logs]
+    return jsonify(lines)
 
 
 if __name__ == "__main__":
