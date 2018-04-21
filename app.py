@@ -29,7 +29,16 @@ def get_logs():
     # def generate_stream(logs):
     #     for log in logs:
     #         yield str(log, 'utf-8').strip() + '\n'
-    lines = [log for log in logs]
+    lines = []
+    key = 0
+    for log in logs:
+        log_json = {
+            "Name": containers.name,
+            "Line {}".format(key): log
+        }
+        lines.append(log_json)
+        key += 1
+
     return jsonify(lines)
 
 
