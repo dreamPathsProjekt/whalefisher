@@ -44,5 +44,12 @@ def get_logs():
     return jsonify(lines)
 
 
+@app.route('/logs/compact')
+def get_logs_compact():
+    containers = get_containers(docker_client)[0]
+    logs = str(containers.logs(timestamps=True, stream=False), encoding='utf-8').split('\n')
+
+    return jsonify(logs)
+
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5000, use_evalex=False)

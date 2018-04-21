@@ -8,7 +8,8 @@ services:
     # beta 16 return jsonified list (compact view)
     # beta 16.1 returns json {name:, linenr:}
     # beta 16.2 strict slashes=False
-    image: registry.dream:5001/whalefisher:0.1-beta6
+    # beta 16.3 keep both behaviours in diff urls
+    image: registry.dream:5001/whalefisher:0.1-beta16.3
     deploy:
       replicas: 1
     ports:
