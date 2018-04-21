@@ -30,7 +30,7 @@ def get_logs():
     #     for log in logs:
     #         yield str(log, 'utf-8').strip() + '\n'
 
-    return Response(jsonify(dict(containers.name=logs)), mimetype="application/json")
+    return Response(jsonify(dict(message=logs)), mimetype="application/json")
 
 
 if __name__ == "__main__":
