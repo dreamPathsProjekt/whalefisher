@@ -5,7 +5,7 @@ from flask import Response
 from docker import client
 import json
 
-from test import get_container_json, get_containers, get_service_json
+from test import get_container_json, get_containers, get_services
 
 docker_client = client.from_env()
 app = Flask(__name__)
@@ -20,7 +20,7 @@ def welcome():
 
 @app.route('/tasks')
 def get_tasks():
-    return jsonify(get_service_json(docker_client)[1].tasks())
+    return jsonify(get_services(docker_client)[1].tasks())
 
 @app.route('/containers')
 def containers_route():
