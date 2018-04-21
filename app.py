@@ -20,7 +20,7 @@ def welcome():
 
 @app.route('/tasks')
 def get_tasks():
-    return jsonify(get_services(docker_client)[1].tasks())
+    return jsonify(get_services(docker_client)[1].tasks(filters={"desired-state": "running"}))
 
 @app.route('/containers')
 def containers_route():
