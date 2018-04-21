@@ -26,11 +26,11 @@ def get_logs():
     containers = get_containers(docker_client)[1]
     logs = containers.logs(timestamps=True, stream=False)
 
-    def generate_stream(logs):
-        for log in logs:
-            yield str(log, 'utf-8').strip() + '\n'
+    # def generate_stream(logs):
+    #     for log in logs:
+    #         yield str(log, 'utf-8').strip() + '\n'
 
-    return Response(generate_stream(logs), mimetype="text/plain")
+    return Response(logs, mimetype="text/plain")
 
 
 if __name__ == "__main__":
