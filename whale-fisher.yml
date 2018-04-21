@@ -5,6 +5,9 @@ services:
     # beta 6 exposes just a flask route
     # beta 8 correctly exposes json routes - logs undefined
     # beta 13.2 streams out logs - but stuck endpoint
+    # beta 16 return jsonified list (compact view)
+    # beta 16.1 returns json {name:, linenr:}
+    # beta 16.2 strict slashes=False
     image: registry.dream:5001/whalefisher:0.1-beta6
     deploy:
       replicas: 1

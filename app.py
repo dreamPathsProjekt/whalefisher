@@ -9,6 +9,8 @@ from test import get_container_json, get_containers
 
 docker_client = client.from_env()
 app = Flask(__name__)
+# Redirect with or without slashes
+app.url_map.strict_slashes = False
 
 
 @app.route('/')
