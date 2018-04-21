@@ -5,7 +5,7 @@ from flask import Response
 from docker import client
 import json
 
-from test import get_container_json, get_containers
+from test import get_container_json, get_containers, get_service_json
 
 docker_client = client.from_env()
 app = Flask(__name__)
@@ -17,6 +17,10 @@ app.url_map.strict_slashes = False
 def welcome():
     return 'Welcome to Whalefisher Logging Api!'
 
+
+@app.route('/tasks')
+def get_tasks():
+    return jsonify(get_service_json(docker_client)[1].tasks())
 
 @app.route('/containers')
 def containers_route():
