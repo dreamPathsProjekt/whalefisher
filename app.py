@@ -60,7 +60,7 @@ def containers_route():
 
 @app.route('/logs')
 def get_logs():
-    containers = get_containers()[0]
+    containers = get_containers()[2]
 
     logs = str(containers.logs(timestamps=True, stream=False), encoding='utf-8').split('\n')
 
