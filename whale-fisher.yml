@@ -13,7 +13,8 @@ services:
     # beta 17.2 decorate client as resource, client info
     # 0.2 as 17.2
     # 0.2.1 include new setup.py version
-    # 0.2.1.1 test other log than self - occasional timeout still exists
+    # 0.2.1.1 test other log than self - occasional timeout still exists on all urls as well (not only logs), 
+    # solution: may need to remove ::1     localhost ip6-localhost ip6-loopback from /etc/hosts
     image: registry.dream:5001/whalefisher:0.1-beta16.3
     deploy:
       replicas: 1
