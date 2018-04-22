@@ -3,11 +3,14 @@ import docker
 
 def provide_client(fn):
 
-    docker_client = docker.client.from_env()
-    result = fn(client=docker_client)
-    docker_client.close()
+    def wrapper():
+        docker_client = docker.client.from_env()
+        result = fn(client=docker_client)
+        docker_client.close()
 
-    return result
+        return result
+
+    return wrapper
 
 
 @provide_client
