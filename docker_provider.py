@@ -15,24 +15,21 @@ def provide_client(fn):
 
 @provide_client
 def get_client_info(client=None):
-    return client.api.adapters
+    return client.info()
 
 
 @provide_client
 def get_services(client=None):
-
     return client.services.list()
 
 
 def get_service_json():
-
     services = get_services()
     return [dict(id=service.id, name=service.name) for service in services]
 
 
 @provide_client
 def get_nodes(client=None):
-
     return client.nodes.list()
 
 
@@ -52,7 +49,6 @@ def get_node_json():
 
 @provide_client
 def get_containers(client=None):
-
     return client.containers.list()
 
 
