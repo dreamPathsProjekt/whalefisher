@@ -48,10 +48,8 @@ def task_names(client, service_name):
 
 if __name__ == "__main__":
 
-    while True:
-        client = docker.from_env()
-        pprint(client.__dir__())
-        pprint(client.__repr__())
+    client = docker.from_env()
+    pprint(client.info())
         # print("Services")
         # pprint(get_service_json(client))
         # print("\n")
