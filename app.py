@@ -31,7 +31,7 @@ def test_error_handler():
 
 
 @app.route('/client')
-def get_adapters():
+def get_client_info_route():
     return jsonify(get_client_info())
 
 
