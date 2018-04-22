@@ -9,6 +9,7 @@ services:
     # beta 16.1 returns json {name:, linenr:}
     # beta 16.2 strict slashes=False
     # beta 16.3 keep both behaviours in diff urls
+    # beta 16.6 tasks with desired: running
     image: registry.dream:5001/whalefisher:0.1-beta16.3
     deploy:
       replicas: 1
