@@ -1,13 +1,15 @@
 from flask import Flask
 from flask import jsonify
 from flask import Response
+from flask import make_response
+from flask import abort
 
 from docker import client
 import json
 
-from test import get_container_json, get_containers, get_services, get_nodes, get_node_json
+from docker_provider import get_container_json, get_containers, get_services, get_nodes, get_node_json
 
-docker_client = client.from_env()
+
 app = Flask(__name__)
 # Redirect with or without slashes
 app.url_map.strict_slashes = False
@@ -18,24 +20,41 @@ def welcome():
     return 'Welcome to Whalefisher Logging Api!'
 
 
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
+
+
+@app.route('/error')
+def test_error_handler():
+    return abort(404)
+
+
 @app.route('/tasks')
 def get_tasks():
-    return jsonify(get_services(docker_client)[1].tasks(filters={"desired-state": "running"}))
+
+    tasks = get_services()[1].tasks(filters={"desired-state": "running"})
+
+
+    if len(tasks) == 0:
+        abort(404)
+
+    return jsonify(tasks)
 
 
 @app.route('/nodes')
 def get_nodes_hostnames():
-    return jsonify(get_node_json(docker_client))
+    return jsonify(get_node_json())
 
 
 @app.route('/containers')
 def containers_route():
-    return jsonify(get_container_json(docker_client))
+    return jsonify(get_container_json())
 
 
 @app.route('/logs')
 def get_logs():
-    containers = get_containers(docker_client)[0]
+    containers = get_containers()[0]
     logs = str(containers.logs(timestamps=True, stream=False), encoding='utf-8').split('\n')
 
     # def generate_stream(logs):
@@ -56,7 +75,7 @@ def get_logs():
 
 @app.route('/logs/compact')
 def get_logs_compact():
-    containers = get_containers(docker_client)[0]
+    containers = get_containers()[0]
     logs = str(containers.logs(timestamps=True, stream=False), encoding='utf-8').split('\n')
 
     return jsonify(logs)
