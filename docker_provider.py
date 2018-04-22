@@ -41,8 +41,7 @@ def get_node_json():
     for node in nodes:
         nodes_dict = dict(id=node.id,
                           hostname=node.attrs['Description']['Hostname'],
-                          ip=node.attrs['Status']['Addr'])
-        nodes_list.append(nodes_dict)
+                          ip=node.attrs['Status']['Addr']) # use this to filter containers
 
     return nodes_list
 
