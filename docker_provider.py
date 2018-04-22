@@ -14,6 +14,11 @@ def provide_client(fn):
 
 
 @provide_client
+def get_client_info(client=None):
+    return client.api.adapters
+
+
+@provide_client
 def get_services(client=None):
 
     return client.services.list()
