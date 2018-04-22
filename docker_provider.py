@@ -16,9 +16,9 @@ def get_services(client=None):
     return client.services.list()
 
 
-def get_service_json(client):
+def get_service_json():
 
-    services = get_services(client)
+    services = get_services()
     return [dict(id=service.id, name=service.name) for service in services]
 
 
@@ -28,9 +28,9 @@ def get_nodes(client=None):
     return client.nodes.list()
 
 
-def get_node_json(client):
+def get_node_json():
 
-    nodes = get_nodes(client)
+    nodes = get_nodes()
     nodes_list = []
 
     for node in nodes:
@@ -48,9 +48,9 @@ def get_containers(client=None):
     return client.containers.list()
 
 
-def get_container_json(client):
+def get_container_json():
 
-    containers = get_containers(client)
+    containers = get_containers()
     return [dict(id=container.id,
                  name=container.name)
             for container in containers]
