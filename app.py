@@ -30,9 +30,10 @@ def test_error_handler():
     return abort(404)
 
 
-@app.route('/client')
-def get_client_info_route():
-    return jsonify(get_client_info())
+# Commented for security reasons
+# @app.route('/client')
+# def get_client_info_route():
+#     return jsonify(get_client_info())
 
 
 @app.route('/tasks')
@@ -60,6 +61,7 @@ def containers_route():
 @app.route('/logs')
 def get_logs():
     containers = get_containers()[0]
+
     logs = str(containers.logs(timestamps=True, stream=False), encoding='utf-8').split('\n')
 
     # def generate_stream(logs):
@@ -74,6 +76,8 @@ def get_logs():
         }
         lines.append(log_json)
         key += 1
+
+    containers.reload()
 
     return jsonify(lines)
 
