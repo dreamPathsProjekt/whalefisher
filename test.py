@@ -50,25 +50,26 @@ if __name__ == "__main__":
 
     while True:
         client = docker.from_env()
+        pprint(client.__dir__())
+        pprint(client.__repr__())
+        # print("Services")
+        # pprint(get_service_json(client))
+        # print("\n")
 
-        print("Services")
-        pprint(get_service_json(client))
-        print("\n")
+        # print("Containers")
+        # pprint(get_container_json(client))
+        # print("\n")
 
-        print("Containers")
-        pprint(get_container_json(client))
-        print("\n")
+        # print("Nodes")
+        # pprint(get_node_json(client))
+        # print("=============\n")
 
-        print("Nodes")
-        pprint(get_node_json(client))
-        print("=============\n")
+        # # Test Log output
+        # tmp = get_containers(client)[1]
 
-        # Test Log output
-        tmp = get_containers(client)[1]
+        # # stream means that lines are b'', may need to decode
+        # logs = tmp.logs(stream=True)
 
-        # stream means that lines are b'', may need to decode
-        logs = tmp.logs(stream=True)
+        # [print(str(log, 'utf-8').strip()) for log in logs]
 
-        [print(str(log, 'utf-8').strip()) for log in logs]
-
-        time.sleep(15)
+        # time.sleep(15)
