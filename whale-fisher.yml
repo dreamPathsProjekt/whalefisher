@@ -17,6 +17,7 @@ services:
     # solution: may need to remove ::1     localhost ip6-localhost ip6-loopback from /etc/hosts
     # 0.2.3 include node labels, availability
     # 0.2.4 Add tasks by service name
+    # 0.2.4.1 Add service route
     image: registry.dream:5001/whalefisher:0.1-beta16.3
     deploy:
       replicas: 1

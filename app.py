@@ -7,7 +7,7 @@ from flask import abort
 from docker import client
 import json
 
-from docker_provider import get_container_json, get_containers, get_services, get_nodes, get_node_json, get_client_info, get_running_tasks
+from docker_provider import get_container_json, get_containers, get_services, get_service_json, get_nodes, get_node_json, get_client_info, get_running_tasks
 
 
 app = Flask(__name__)
@@ -34,6 +34,11 @@ def test_error_handler():
 # @app.route('/client')
 # def get_client_info_route():
 #     return jsonify(get_client_info())
+
+
+@app.route('/services')
+def get_services_route():
+    return jsonify(get_service_json())
 
 
 @app.route('/tasks')
