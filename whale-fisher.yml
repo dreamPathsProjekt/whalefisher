@@ -22,6 +22,8 @@ services:
     # 0.2.5.2 Return empty task list
     # 0.2.6 Refine search services by name, tasks
     # 0.2.6.1 Fix list routes
+
+    # 0.3 or 0.4 Import pyld (setup.py) ,from pyld import jsonld, to implement HateOas
     image: registry.dream:5001/whalefisher:0.1-beta16.3
     deploy:
       replicas: 1
