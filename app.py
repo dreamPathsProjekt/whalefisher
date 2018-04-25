@@ -50,9 +50,9 @@ def get_services_route():
 
 
 @app.route('/services/<string:name>/tasks')
-def get_tasks_by_service_name(service_name):
+def get_tasks_by_service_name(name):
 
-    tasks = get_running_tasks(service_name)
+    tasks = get_running_tasks(name)
 
     if len(tasks) == 0:
         abort(404)
