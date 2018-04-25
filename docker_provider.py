@@ -40,8 +40,10 @@ def get_node_json():
 
     for node in nodes:
         nodes_dict = dict(id=node.id,
+                          availability=node.attrs['Spec']['Availability'],
                           hostname=node.attrs['Description']['Hostname'],
-                          ip=node.attrs['Status']['Addr'])  # use this to filter containers
+                          ip=node.attrs['Status']['Addr'],  # use this to filter containers
+                          labels=node.attrs['Spec']['Labels'])
         nodes_list.append(nodes_dict)
 
     return nodes_list
