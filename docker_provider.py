@@ -26,8 +26,10 @@ def get_services(client=None):
 def get_service_by_name(service_name):
     services = get_services()
     for service in services:
-        if service_name == service.name:
+        if service_name in service.name:
             return service
+
+    return []
 
 
 def get_service_json():
