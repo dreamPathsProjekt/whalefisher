@@ -16,7 +16,7 @@ app.url_map.strict_slashes = False
 
 
 @app.route('/')
-def list_routes(app):
+def list_routes():
     result = []
 
     for route in app.url_map.iter_rules():
