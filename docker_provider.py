@@ -23,13 +23,27 @@ def get_services(client=None):
     return client.services.list()
 
 
+def get_all_services_by_name(service_name):
+    services = get_services()
+    result = []
+
+    for service in services:
+
+        if service_name in service.name:
+            result.append(service)
+
+    return result
+
+# Requires unique name
 def get_service_by_name(service_name):
     services = get_services()
+
     for service in services:
-        if service_name in service.name:
+
+        if service_name == service.name:
             return service
 
-    return []
+    return None
 
 
 def get_service_json():
@@ -37,9 +51,18 @@ def get_service_json():
     return [dict(id=service.id, name=service.name) for service in services]
 
 
+def get_service_json_by_name(service_name):
+    services = get_all_services_by_name(service_name)
+    return [dict(id=service.id, name=service.name) for service in services]
+
+
 def get_running_tasks(service_name):
     service = get_service_by_name(service_name)
-    return service.tasks(filters={"desired-state": "running"})
+
+    if service is not None:
+        return service.tasks(filters={"desired-state": "running"})
+
+    return []
 
 
 @provide_client

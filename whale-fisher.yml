@@ -20,6 +20,7 @@ services:
     # 0.2.4.1 Add service route
     # 0.2.5 Add get tasks by service name route, 0.2.5.1 fix
     # 0.2.5.2 Return empty task list
+    # 0.2.6 Refine search services by name, tasks
     image: registry.dream:5001/whalefisher:0.1-beta16.3
     deploy:
       replicas: 1
