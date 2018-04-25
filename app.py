@@ -7,7 +7,7 @@ from flask import abort
 from docker import client
 import json
 
-from docker_provider import get_container_json, get_containers, get_services, get_service_json, get_nodes, get_node_json, get_client_info, get_running_tasks
+from docker_provider import get_container_json, get_containers, get_services, get_service_json, get_service_by_name, get_nodes, get_node_json, get_client_info, get_running_tasks
 
 
 app = Flask(__name__)
@@ -16,8 +16,16 @@ app.url_map.strict_slashes = False
 
 
 @app.route('/')
-def welcome():
-    return 'Welcome to Whalefisher Logging Api!'
+def list_routes(app):
+    result = []
+
+    for route in app.url_map.iter_rules():
+        result.append({
+            'methods': list(route.methods),
+            'route': str(route)
+        })
+
+    return jsonify({'routes': result, 'total': len(result)})
 
 
 @app.errorhandler(404)
@@ -41,10 +49,10 @@ def get_services_route():
     return jsonify(get_service_json())
 
 
-@app.route('/tasks')
-def get_tasks_route():
+@app.route('/services/<string:name>/tasks')
+def get_tasks_by_service_name(service_name):
 
-    tasks = get_running_tasks("passapp_password-web")
+    tasks = get_running_tasks(service_name)
 
     if len(tasks) == 0:
         abort(404)

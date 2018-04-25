@@ -18,6 +18,7 @@ services:
     # 0.2.3 include node labels, availability
     # 0.2.4 Add tasks by service name
     # 0.2.4.1 Add service route
+    # 0.2.5 Add get tasks by service name route
     image: registry.dream:5001/whalefisher:0.1-beta16.3
     deploy:
       replicas: 1
