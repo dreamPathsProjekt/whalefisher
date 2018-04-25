@@ -23,9 +23,21 @@ def get_services(client=None):
     return client.services.list()
 
 
+def get_service_by_name(service_name):
+    services = get_services()
+    for service in services:
+        if service_name == service.name:
+            return service
+
+
 def get_service_json():
     services = get_services()
     return [dict(id=service.id, name=service.name) for service in services]
+
+
+def get_running_tasks(service_name):
+    service = get_service_by_name(service_name)
+    return service.tasks(filters={"desired-state": "running"})
 
 
 @provide_client

@@ -16,6 +16,7 @@ services:
     # 0.2.1.1 test other log than self - occasional timeout still exists on all urls as well (not only logs),
     # solution: may need to remove ::1     localhost ip6-localhost ip6-loopback from /etc/hosts
     # 0.2.3 include node labels, availability
+    # 0.2.4 Add tasks by service name
     image: registry.dream:5001/whalefisher:0.1-beta16.3
     deploy:
       replicas: 1
