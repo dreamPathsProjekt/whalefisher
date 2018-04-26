@@ -56,7 +56,7 @@ if __name__ == "__main__":
 
     client = docker.client.from_env()
     # pprint(os.environ)
-    request = requests.get('http://localhost')
+    request = requests.get('http://localhost:5000')
     pprint(request.status_code)
     pprint(request.json())
     pprint(request.headers)
