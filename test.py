@@ -54,7 +54,7 @@ if __name__ == "__main__":
     # )
 
     client = docker.client.from_env()
-    print(os.environ['DOCKER_HOST'])
+    print(os.environ)
     # pprint(client.info())
         # print("Services")
         # pprint(get_service_json(client))
