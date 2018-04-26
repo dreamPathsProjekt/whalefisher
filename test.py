@@ -1,6 +1,7 @@
 import docker
 import time
 import os
+import requests
 
 from pprint import pprint
 
@@ -54,7 +55,12 @@ if __name__ == "__main__":
     # )
 
     client = docker.client.from_env()
-    print(os.environ)
+    # pprint(os.environ)
+    request = requests.get('http://localhost')
+    pprint(request.status_code)
+    pprint(request.json())
+    pprint(request.headers)
+    request.close()
     # pprint(client.info())
         # print("Services")
         # pprint(get_service_json(client))
