@@ -1,5 +1,6 @@
 import docker
 import time
+import os
 
 from pprint import pprint
 
@@ -48,8 +49,13 @@ def task_names(client, service_name):
 
 if __name__ == "__main__":
 
-    client = docker.from_env()
-    pprint(client.info())
+    # tls_config = docker.tls.TLSConfig(
+    # client_cert=('/path/to/client-cert.pem', '/path/to/client-key.pem')
+    # )
+
+    client = docker.client.from_env()
+    print(os.environ['DOCKER_HOST'])
+    # pprint(client.info())
         # print("Services")
         # pprint(get_service_json(client))
         # print("\n")
