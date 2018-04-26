@@ -27,6 +27,8 @@ services:
     image: registry.dream:5001/whalefisher:0.1-beta16.3
     deploy:
       replicas: 1
+    # environment:
+    #   - DOCKER_HOST={{.Node.Hostname}}:2377
     ports:
       - "80:5000"
     volumes:
