@@ -77,9 +77,9 @@ def get_nodes_hostnames():
     return jsonify(get_node_json())
 
 
-@app.route('/node/active')
-def get_active_node():
-    return jsonify(get_active_nodename())
+@app.route('/node/current')
+def get_current_node():
+    return jsonify(get_current_nodename())
 
 
 @app.route('/container')

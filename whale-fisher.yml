@@ -23,9 +23,10 @@ services:
     # 0.2.6 Refine search services by name, tasks
     # 0.2.6.1 Fix list routes
     # 0.2.6.2 Add active node by getting environ['DOCKER_NODE']
+    # 0.2.7 Fix route to current nodename
 
     # 0.3 or 0.4 Import pyld (setup.py) ,from pyld import jsonld, to implement HateOas
-    image: registry.dream:5001/whalefisher:0.2.6.2
+    image: registry.dream:5001/whalefisher:0.2.7
     deploy:
       replicas: 1
     environment:

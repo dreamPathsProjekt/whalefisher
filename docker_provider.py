@@ -13,8 +13,8 @@ def provide_client(fn):
     return wrapper
 
 
-def get_active_nodename():
-    return os.environ['DOCKER_NODE']
+def get_current_nodename():
+    return dict(current=os.environ['DOCKER_NODE'])
 
 
 @provide_client
