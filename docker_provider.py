@@ -1,5 +1,5 @@
 import docker
-
+import os
 
 def provide_client(fn):
 
@@ -11,6 +11,10 @@ def provide_client(fn):
         return result
 
     return wrapper
+
+
+def get_active_nodename():
+    return os.environ['DOCKER_NODE']
 
 
 @provide_client

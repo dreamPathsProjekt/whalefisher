@@ -59,6 +59,7 @@ def get_services_by_service_name(name):
 
     return jsonify(services)
 
+
 # Requires exact name
 @app.route('/service/<string:name>/tasks')
 def get_tasks_by_service_name(name):
@@ -74,6 +75,11 @@ def get_tasks_by_service_name(name):
 @app.route('/node')
 def get_nodes_hostnames():
     return jsonify(get_node_json())
+
+
+@app.route('/node/active')
+def get_active_node():
+    return jsonify(get_active_nodename())
 
 
 @app.route('/container')
