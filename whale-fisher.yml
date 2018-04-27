@@ -29,6 +29,7 @@ version: "3.3"
     # 0.2.8.2 Add Slot check for global services
 
     # 0.3 Split into data-provider and manager services
+    # 0.3.0 test data-providers from manager
 
     # 0.3 or 0.4 Import pyld (setup.py) [Not needed] ,from pyld import jsonld, to implement HateOas
 
