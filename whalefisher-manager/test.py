@@ -88,9 +88,6 @@ if __name__ == "__main__":
     # request3.close()
     # request4.close()
 
-    request5 = requests.get('http://10.132.0.2:8086/container/')
-    pprint(request5.json())
-    request5.close()
     # pprint(client.info())
         # print("Services")
         # pprint(get_service_json(client))
