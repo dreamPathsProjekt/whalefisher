@@ -73,9 +73,9 @@ def get_running_tasks(service_name):
 def get_tasks_json(tasks):
     task_list = []
 
-    if len(task_list) != 0:
+    if len(tasks) != 0:
 
-        for task in task_list:
+        for task in tasks:
             task_dict = dict(
                 id=task['ID'],
                 node_id=task['NodeID'],
