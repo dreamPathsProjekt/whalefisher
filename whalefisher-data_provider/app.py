@@ -93,13 +93,14 @@ def get_logs_compact(id):
 
 @app.route('/container/<string:id>/logs/stream')
 def get_logs_stream(id):
-    container = get_container_by_id(id)
+    container = get_container_by_id(id, client)
 
     def generate_stream():
         for log in container.logs(timestamps=True, stream=True):
-            yield log
+            yield str(log, 'utf-8').strip()
+            container.reload()
 
-    return Response(generate_stream(), mimetype='text/plain')
+    return Response(generate_stream(),  mimetype='text/plain')
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5000, use_evalex=False, threaded=False)
