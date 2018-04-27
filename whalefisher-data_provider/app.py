@@ -7,6 +7,7 @@ from flask import stream_with_context
 
 from docker import client
 import json
+import time
 
 from docker_provider import *
 
@@ -98,9 +99,11 @@ def get_logs_stream(id):
 
     @stream_with_context
     def generate_stream():
+        start = time.time()
         for log in container.logs(timestamps=True, stream=True, follow=True):
-            # if i_should_close_the_connection:
-            #     break
+            now = time.time()
+            if now - start > 120:
+                break
 
             yield str(log, 'utf-8').strip() + '\n'
             container.reload()
@@ -108,20 +111,22 @@ def get_logs_stream(id):
     return Response(generate_stream(),  mimetype='text/event-stream')
 
 
-@app.route('/container/<string:id>/logs/stream/tail/<int:lines>')
+@app.route('/container/<string:id>/logs/tail/<int:lines>')
 def get_logs_stream_tail(id, lines):
     container = get_container_by_id(id)
 
     @stream_with_context
     def generate_stream():
+        start = time.time()
         for log in container.logs(timestamps=True, stream=True, follow=True, tail=lines):
-            # if i_should_close_the_connection:
-            #     break
+            now = time.time()
+            if now - start > 120:
+                break
 
-            yield json.dumps(str(log, 'utf-8'))
+            yield json.dumps(str(log, 'utf-8').strip() + '\n')
             container.reload()
 
-    return Response(generate_stream(),  mimetype='application/json')
+    return Response(generate_stream(),  mimetype='text/event-stream')
 
 
 if __name__ == "__main__":
