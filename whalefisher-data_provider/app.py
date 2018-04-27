@@ -96,8 +96,8 @@ def get_logs_stream(id):
     container = get_container_by_id(id)
 
     def generate_stream():
-        for log in container.logs(timestamps=True, stream=True):
-            yield str(log, 'utf-8').strip()
+        for log in container.logs(timestamps=True, stream=True, follow=True):
+            yield str(log, 'utf-8').strip() + '\n'
             container.reload()
 
     return Response(generate_stream(),  mimetype='text/plain')
