@@ -118,7 +118,7 @@ def get_logs_stream_tail(id, lines):
             # if i_should_close_the_connection:
             #     break
 
-            yield json.dumps(str(log, 'utf-8').strip() + '\n')
+            yield json.dumps(str(log, 'utf-8'))
             container.reload()
 
     return Response(generate_stream(),  mimetype='application/json')
