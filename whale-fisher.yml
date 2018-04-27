@@ -41,7 +41,7 @@ services:
     environment:
       - DOCKER_NODE={{.Node.Hostname}}
     ports:
-      - "8086:5000"
+      - "80:5000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
@@ -54,7 +54,7 @@ services:
       - DOCKER_NODE={{.Node.Hostname}}
     ports:
       - target: 5000
-        published: 8085
+        published: 8086
         protocol: tcp
         mode: host
     volumes:
