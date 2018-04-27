@@ -107,5 +107,22 @@ def get_logs_stream(id):
 
     return Response(generate_stream(),  mimetype='text/event-stream')
 
+
+@app.route('/container/<string:id>/logs/stream/tail/<int:lines>')
+def get_logs_stream_tail(id, lines):
+    container = get_container_by_id(id)
+
+    @stream_with_context
+    def generate_stream():
+        for log in container.logs(timestamps=True, stream=True, follow=True, tail=lines):
+            # if i_should_close_the_connection:
+            #     break
+
+            yield str(log, 'utf-8').strip() + '\n'
+            container.reload()
+
+    return Response(generate_stream(),  mimetype='text/event-stream')
+
+
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5000, use_evalex=False, threaded=False)
