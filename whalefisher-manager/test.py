@@ -56,8 +56,8 @@ if __name__ == "__main__":
 
     client = docker.client.from_env()
     # pprint(os.environ)
-    request1 = requests.get('http://it-docker-m1:8086/node/current')
-    request2 = requests.get('http://it-docker-m2:8086/node/current')
+    request1 = requests.get('http://10.132.0.11:8086/node/current')
+    request2 = requests.get('http://10.132.0.28:8086/node/current')
     # pprint(request.status_code)
     print('it-docker-m1\n')
     pprint(request1.json())
