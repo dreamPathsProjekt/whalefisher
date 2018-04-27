@@ -88,7 +88,7 @@ def get_tasks_json(tasks, service_name_input):
                 service_name=service_name_input,
                 desired_state=task['DesiredState'],
                 current_state=task['Status']['State'],
-                slot=task['Slot']
+                slot=task['Slot'] if 'Slot' in task.keys() else None
             )
             task_list.append(task_dict)
 
