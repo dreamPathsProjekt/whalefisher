@@ -33,13 +33,14 @@ version: "3.3"
     # 0.3.2 Provide extensive node test from manager
     # 0.3.3 Add container/id/logs routes on data-provider
     # 0.3.4 Add stream log route to data-provider, 0.3.4.1, 0.3.4.2, 0.3.4.3, 0.3.4.4
+    # 0.3.5 Add mimetype=text/event-stream
 
     # 0.3 or 0.4 Import pyld (setup.py) [Not needed] ,from pyld import jsonld, to implement HateOas
 
 services:
 
   whalefisher-manager:
-    image: registry.dream:5001/whalefisher-manager:0.3.4.4
+    image: registry.dream:5001/whalefisher-manager:0.3.5
     deploy:
       replicas: 1
     environment:
@@ -50,7 +51,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   whalefisher-data_provider:
-    image: registry.dream:5001/whalefisher-data_provider:0.3.4.4
+    image: registry.dream:5001/whalefisher-data_provider:0.3.5
     deploy:
       mode: global
       endpoint_mode: dnsrr

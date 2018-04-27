@@ -3,6 +3,7 @@ from flask import jsonify
 from flask import Response
 from flask import make_response
 from flask import abort
+from flask import stream_with_context
 
 from docker import client
 import json
@@ -95,12 +96,16 @@ def get_logs_compact(id):
 def get_logs_stream(id):
     container = get_container_by_id(id)
 
+    @stream_with_context
     def generate_stream():
         for log in container.logs(timestamps=True, stream=True, follow=True):
+            # if i_should_close_the_connection:
+            #     break
+
             yield str(log, 'utf-8').strip() + '\n'
             container.reload()
 
-    return Response(generate_stream(),  mimetype='text/plain')
+    return Response(generate_stream(),  mimetype='text/event-stream')
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5000, use_evalex=False, threaded=False)
