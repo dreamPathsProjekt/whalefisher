@@ -27,6 +27,7 @@ services:
     # 0.2.7.1 Add Requests module, 0.2.7.2 fix port
     # 0.2.7.3 Add tasks json route and middleware
     # 0.2.7.4 Fix empty list bug in tasks
+    # 0.2.8 Add fields to task, get node by id
 
     # 0.3 or 0.4 Import pyld (setup.py) ,from pyld import jsonld, to implement HateOas
     image: registry.dream:5001/whalefisher:0.2.7.1
