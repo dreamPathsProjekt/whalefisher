@@ -54,11 +54,16 @@ def containers_route():
     return jsonify(get_container_json())
 
 
-@app.route('/logs')
-def get_logs():
-    containers = get_containers()[2]
+@app.route('/container/<string:id>')
+def container_by_id(id):
+    return jsonify(get_container_json_by_id(id))
 
-    logs = str(containers.logs(timestamps=True, stream=False), encoding='utf-8').split('\n')
+
+@app.route('/container/<string:id>/logs')
+def get_logs(id):
+    container = get_container_by_id(id)
+
+    logs = str(container.logs(timestamps=True, stream=False), encoding='utf-8').split('\n')
 
     # def generate_stream(logs):
     #     for log in logs:
@@ -67,23 +72,24 @@ def get_logs():
     key = 0
     for log in logs:
         log_json = {
-            "Name": containers.name,
+            "Name": container.name,
             "Line {}".format(key): log
         }
         lines.append(log_json)
         key += 1
 
-    containers.reload()
+    container.reload()
 
     return jsonify(lines)
 
 
-@app.route('/logs/compact')
-def get_logs_compact():
-    containers = get_containers()[1]
-    logs = str(containers.logs(timestamps=True, stream=False), encoding='utf-8').split('\n')
+@app.route('/container/<string:id>/logs/compact')
+def get_logs_compact(id):
+    container = get_container_by_id(id)
+    logs = str(container.logs(timestamps=True, stream=False), encoding='utf-8').split('\n')
 
     return jsonify(logs)
+
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5000, use_evalex=False, threaded=True)

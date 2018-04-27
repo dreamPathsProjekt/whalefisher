@@ -132,3 +132,14 @@ def get_container_json():
     return [dict(id=container.id,
                  name=container.name)
             for container in containers]
+
+
+@provide_client
+def get_container_by_id(id, client=None):
+    return client.containers.get(id)
+
+
+def get_container_json_by_id(id):
+
+    container = get_container_by_id(id)
+    return dict(id=container.id, name=container.name)
