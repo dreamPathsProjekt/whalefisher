@@ -91,5 +91,15 @@ def get_logs_compact(id):
     return jsonify(logs)
 
 
+@app.route('/container/<string:id>/logs/stream')
+def get_logs_stream(id):
+    container = get_container_by_id(id)
+
+    def generate_stream():
+        for log in str(container.logs(timestamps=True, stream=True), encoding='utf-8'):
+            yield log + '\n'
+
+    return Response(generate_stream(), mimetype='text/plain')
+
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5000, use_evalex=False, threaded=True)
+    app.run(debug=True, host='0.0.0.0', port=5000, use_evalex=False, threaded=False)
