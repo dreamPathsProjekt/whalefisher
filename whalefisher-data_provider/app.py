@@ -93,7 +93,7 @@ def get_logs_compact(id):
 
 @app.route('/container/<string:id>/logs/stream')
 def get_logs_stream(id):
-    container = get_container_by_id(id, client)
+    container = get_container_by_id(id)
 
     def generate_stream():
         for log in container.logs(timestamps=True, stream=True):
