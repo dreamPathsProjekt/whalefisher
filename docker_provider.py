@@ -4,9 +4,9 @@ import os
 
 def provide_client(fn):
 
-    def wrapper():
+    def wrapper(*args, **kwargs):
         docker_client = docker.client.from_env()
-        result = fn(client=docker_client)
+        result = fn(client=docker_client, *args, **kwargs)
         docker_client.close()
 
         return result
