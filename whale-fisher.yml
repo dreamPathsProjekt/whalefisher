@@ -25,6 +25,7 @@ services:
     # 0.2.6.2 Add active node by getting environ['DOCKER_NODE']
     # 0.2.7 Fix route to current nodename
     # 0.2.7.1 Add Requests module, 0.2.7.2 fix port
+    # 0.2.7.3 Add tasks json route and middleware
 
     # 0.3 or 0.4 Import pyld (setup.py) ,from pyld import jsonld, to implement HateOas
     image: registry.dream:5001/whalefisher:0.2.7.1

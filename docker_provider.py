@@ -1,6 +1,7 @@
 import docker
 import os
 
+
 def provide_client(fn):
 
     def wrapper():
@@ -67,6 +68,25 @@ def get_running_tasks(service_name):
         return service.tasks(filters={"desired-state": "running"})
 
     return []
+
+
+def get_tasks_json(tasks):
+    task_list = []
+
+    if len(task_list) != 0:
+
+        for task in task_list:
+            task_dict = dict(
+                id=task['ID'],
+                node_id=task['NodeID'],
+                service_id=task['ServiceID'],
+                desired_state=task['DesiredState'],
+                current_state=task['Status']['State'],
+                slot=task['Slot']
+            )
+            task_list.append(task_dict)
+
+    return task_list
 
 
 @provide_client
