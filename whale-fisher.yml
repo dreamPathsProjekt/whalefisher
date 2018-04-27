@@ -41,7 +41,7 @@ version: "3.3"
 services:
 
   whalefisher-manager:
-    image: registry.dream:5001/whalefisher-manager:0.3.5
+    image: registry.dream:5001/whalefisher-manager:0.3.6
     deploy:
       replicas: 1
     environment:
@@ -52,7 +52,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   whalefisher-data_provider:
-    image: registry.dream:5001/whalefisher-data_provider:0.3.5
+    image: registry.dream:5001/whalefisher-data_provider:0.3.6
     deploy:
       mode: global
       endpoint_mode: dnsrr
