@@ -120,10 +120,12 @@ def get_logs_stream_tail(id, lines):
         start = time.time()
         for log in container.logs(timestamps=True, stream=True, follow=True, tail=lines):
             now = time.time()
+
             if now - start > 120:
                 break
 
-            yield json.dumps(str(log, 'utf-8').strip() + '\n')
+            yield str(now - start) + '\n'
+            yield str(log, 'utf-8').strip() + '\n'
             container.reload()
 
     return Response(generate_stream(),  mimetype='text/event-stream')
