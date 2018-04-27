@@ -39,6 +39,7 @@ def get_all_services_by_name(service_name):
 
     return result
 
+
 # Requires unique name
 def get_service_by_name(service_name):
     services = get_services()
@@ -70,16 +71,21 @@ def get_running_tasks(service_name):
     return []
 
 
-def get_tasks_json(tasks):
+def get_tasks_json(tasks, service_name_input):
     task_list = []
 
     if len(tasks) != 0:
 
         for task in tasks:
+
+            node_name_by_id = get_node_by_id(id=task['NodeID']).attrs['Description']['Hostname']
+
             task_dict = dict(
                 id=task['ID'],
                 node_id=task['NodeID'],
+                node_name=node_name_by_id,
                 service_id=task['ServiceID'],
+                service_name=service_name_input,
                 desired_state=task['DesiredState'],
                 current_state=task['Status']['State'],
                 slot=task['Slot']
@@ -92,6 +98,11 @@ def get_tasks_json(tasks):
 @provide_client
 def get_nodes(client=None):
     return client.nodes.list()
+
+
+@provide_client
+def get_node_by_id(id, client=None):
+    return client.nodes.get(id)
 
 
 def get_node_json():
