@@ -66,7 +66,10 @@ if __name__ == "__main__":
 
     request_stream = requests.get('http://10.132.0.2:8080/container/{}/logs/stream'.format(cont_id), stream=True)
 
-    for line in request_stream.iter_content(chunk_size=None, decode_unicode=False):
+    for char in request_stream.iter_content(chunk_size=1, decode_unicode=False):
+        line = ''
+        if char != '\n':
+            line += char
         print(line)
     # request1 = requests.get('http://10.132.0.11:8086/node/current')
     # request2 = requests.get('http://10.132.0.28:8086/node/current')
