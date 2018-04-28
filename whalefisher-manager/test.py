@@ -68,8 +68,8 @@ if __name__ == "__main__":
 
     for char in request_stream.iter_content(chunk_size=1, decode_unicode=False):
         line = ''
-        if char != '\n':
-            line += char
+        if str(char) != '\n':
+            line += str(char)
         print(line)
     # request1 = requests.get('http://10.132.0.11:8086/node/current')
     # request2 = requests.get('http://10.132.0.28:8086/node/current')
