@@ -58,7 +58,7 @@ if __name__ == "__main__":
     # pprint(os.environ)
     print('Test ')
 
-    requestStream = requests.get('http://10.132.0.2:8086/container/d0074be6a9e/logs/stream', stream=True)
+    requestStream = requests.get('http://10.132.0.2:8080/container/d0074be6a9e/logs/stream', stream=True)
 
     for line in requestStream.iter_lines():
         if line:
