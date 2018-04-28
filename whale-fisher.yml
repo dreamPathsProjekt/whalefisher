@@ -39,13 +39,14 @@ version: "3.3"
     # 0.3.7 introduce timeouts, 0.3.7.1
     # 0.3.7.2 threaded=True for data-provider
     # 0.3.7.5 test stream request from manager
+    # 0.3.7.6 Add reentrant iter_lines hack
 
     # 0.3 or 0.4 Import pyld (setup.py) [Not needed] ,from pyld import jsonld, to implement HateOas
 
 services:
 
   whalefisher-manager:
-    image: registry.dream:5001/whalefisher-manager:0.3.7.5
+    image: registry.dream:5001/whalefisher-manager:0.3.7.6
     deploy:
       replicas: 1
     environment:
@@ -56,7 +57,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   whalefisher-data_provider:
-    image: registry.dream:5001/whalefisher-data_provider:0.3.7.5
+    image: registry.dream:5001/whalefisher-data_provider:0.3.7.6
     deploy:
       mode: global
       endpoint_mode: dnsrr
