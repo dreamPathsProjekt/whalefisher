@@ -57,8 +57,14 @@ if __name__ == "__main__":
     client = docker.client.from_env()
     # pprint(os.environ)
     print('Test ')
+    req_get_name = requests.get('http://10.132.0.2:8080/container')
 
-    requestStream = requests.get('http://10.132.0.2:8080/container/d0074be6a9e/logs/stream', stream=True)
+    cont_id = ''
+    for container in req_get_name.json():
+        if str(container['name']).startswith('whale_whalefisher-data_provider'):
+            cont_id = container['id']
+
+    requestStream = requests.get('http://10.132.0.2:8080/container/{}/logs/stream'.format(cont_id), stream=True)
 
     for line in requestStream.iter_lines():
         print(line)
