@@ -64,12 +64,9 @@ if __name__ == "__main__":
         if str(container['name']).startswith('whale_whalefisher-data_provider'):
             cont_id = container['id']
 
-    requestStream = requests.get('http://10.132.0.2:8080/container/{}/logs/stream'.format(cont_id), stream=True)
+    request_stream = requests.get('http://10.132.0.2:8080/container/{}/logs/stream'.format(cont_id), stream=True)
 
-    lines = requestStream.iter_lines()
-    first_line = next(lines)
-    print(first_line)
-    for line in lines:
+    for line in request_stream.iter_content():
         print(line)
     # request1 = requests.get('http://10.132.0.11:8086/node/current')
     # request2 = requests.get('http://10.132.0.28:8086/node/current')
