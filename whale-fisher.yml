@@ -41,14 +41,14 @@ version: "3.3"
     # 0.3.7.5 test stream request from manager
     # 0.3.7.6 Add reentrant iter_lines hack
     # 0.3.7.7 Test manager with iter_content()
-    # 0.3.7.8 iter content with decoding and chunk size = None
+    # 0.3.7.8 iter content with decoding and chunk size = None, 0.3.7.9
 
     # 0.3 or 0.4 Import pyld (setup.py) [Not needed] ,from pyld import jsonld, to implement HateOas
 
 services:
 
   whalefisher-manager:
-    image: registry.dream:5001/whalefisher-manager:0.3.7.8
+    image: registry.dream:5001/whalefisher-manager:0.3.7.9
     deploy:
       replicas: 1
     environment:
@@ -59,7 +59,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   whalefisher-data_provider:
-    image: registry.dream:5001/whalefisher-data_provider:0.3.7.8
+    image: registry.dream:5001/whalefisher-data_provider:0.3.7.9
     deploy:
       mode: global
       endpoint_mode: dnsrr
