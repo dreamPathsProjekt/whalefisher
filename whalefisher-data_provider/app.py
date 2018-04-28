@@ -96,7 +96,7 @@ def get_logs_compact(id):
 def get_logs_stream(id):
     container = get_container_by_id(id)
 
-    @stream_with_context
+    # @stream_with_context
     def generate_stream():
 
         for log in container.logs(timestamps=True, stream=True, follow=True):
@@ -110,7 +110,7 @@ def get_logs_stream(id):
 def get_logs_stream_tail(id, lines):
     container = get_container_by_id(id)
 
-    @stream_with_context
+    # @stream_with_context
     def generate_stream():
 
         for log in container.logs(timestamps=True, stream=True, follow=True, tail=lines):

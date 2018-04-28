@@ -4,7 +4,7 @@ import os
 import requests
 
 from pprint import pprint
-
+import json
 
 def get_services(client):
     return client.services.list()
@@ -57,6 +57,13 @@ if __name__ == "__main__":
     client = docker.client.from_env()
     # pprint(os.environ)
     print('Test ')
+
+    requestStream = requests.get('http://10.132.0.2', stream=True)
+
+    for line in requestStream.iter_lines():
+        if line:
+            decoded = line.decode('utf-8')
+            print(json.loads(decoded))
     # request1 = requests.get('http://10.132.0.11:8086/node/current')
     # request2 = requests.get('http://10.132.0.28:8086/node/current')
 
