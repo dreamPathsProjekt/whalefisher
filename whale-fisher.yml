@@ -43,6 +43,7 @@ version: "3.3"
     # 0.3.7.7 Test manager with iter_content()
     # 0.3.7.8 iter content with decoding and chunk size = None, 0.3.7.9
     # 0.3.8 format chars in iter content, 0.3.8.1
+    #   Both iter_lines and iter_content lose data
 
     # 0.3 or 0.4 Import pyld (setup.py) [Not needed] ,from pyld import jsonld, to implement HateOas
 
