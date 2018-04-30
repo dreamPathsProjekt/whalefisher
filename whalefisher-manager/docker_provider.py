@@ -2,6 +2,9 @@ import docker
 import os
 import requests
 
+# Change this according to data-provider published port
+PROVIDER_PORT = '8086'
+
 def provide_client(fn):
 
     def wrapper(*args, **kwargs):
@@ -102,40 +105,37 @@ def get_container_by_task_id(service_name, task_id):
     nodes = get_node_json()
     tasks = get_running_tasks(service_name, task_id=task_id)
 
+    tasks_json = []
 
-    provider_port = '8086'
+    tasks_json = get_tasks_json(tasks, service_name)
 
-    if tasks:
-        tasks_json = get_tasks_json(tasks, service_name)
-    else:
-        tasks_json = []
+    if len(tasks_json) > 1 or len(tasks_json) == 0:
+        return None
 
-    if tasks_json != []:
-        if len(tasks_json) > 1:
-            return None
+    task_node_id = tasks_json[0]['node_id']
+    task_slot = tasks_json[0]['slot']
 
-        task_node_id = tasks_json[0]['node_id']
-        task_slot = tasks_json[0]['slot']
+    for node in nodes:
+        if node['id'] == task_node_id:
+            provider_ip = node['ip']
 
-        for node in nodes:
-            if node['id'] == task_node_id:
-                provider_ip = node['ip']
+    req_get_container = requests.get('http://{}:{}/container'.format(provider_ip, PROVIDER_PORT))
 
-        req_get_container = requests.get('http://{}:{}/container'.format(provider_ip, provider_port))
-
-        for container in req_get_container.json():
-            if task_slot is not None and str(container['name']).startswith('{}.{}'.format(service_name, task_slot)):
-                return dict(
-                    container_id=container['id'],
-                    node_ip=provider_ip,
-                    node_port=provider_port
-                    )
-            elif str(container['name']).startswith('{}'.format(service_name)):
-                return dict(
-                    container_id=container['id'],
-                    node_ip=provider_ip,
-                    node_port=provider_port
-                    )
+    for container in req_get_container.json():
+        # Replicated Services
+        if task_slot is not None and str(container['name']).startswith('{}.{}'.format(service_name, task_slot)):
+            return dict(
+                container_id=container['id'],
+                node_ip=provider_ip,
+                node_port=PROVIDER_PORT
+                )
+        # Global Services
+        elif str(container['name']).startswith('{}'.format(service_name)):
+            return dict(
+                container_id=container['id'],
+                node_ip=provider_ip,
+                node_port=PROVIDER_PORT
+                )
     return None
 
 
