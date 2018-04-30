@@ -5,15 +5,24 @@ from flask import make_response
 from flask import abort
 from flask import stream_with_context
 
+
+from flask_socketio import SocketIO
+
 from docker import client
 import json
 
 from docker_provider import *
 
+# The init_app() style of initialization is also supported. Note the way the web server is started.
+# The socketio.run() function encapsulates the start up of the web server and replaces the app.run() standard Flask development server start up.
+# When the application is in debug mode the Werkzeug development server is still used and configured properly inside socketio.run().
+# In production mode the eventlet web server is used if available, else the gevent web server is used.
+# If eventlet and gevent are not installed, the Werkzeug development web server is used.
 
 app = Flask(__name__)
 # Redirect with or without slashes
 app.url_map.strict_slashes = False
+socketio = SocketIO(app)
 
 
 @app.route('/')
@@ -121,4 +130,5 @@ def get_logs_stream_tail(id, lines):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5000, use_evalex=False, threaded=True)
+    # app.run(debug=True, host='0.0.0.0', port=5000, use_evalex=False, threaded=True)
+    socketio.run(app)

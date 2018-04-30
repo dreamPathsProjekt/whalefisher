@@ -45,6 +45,8 @@ version: "3.3"
     # 0.3.8 format chars in iter content, 0.3.8.1
     #   Both iter_lines and iter_content lose data
 
+    # 0.4 Setup.py install eventlet, flask-socketio
+
     # 0.3 or 0.4 Import pyld (setup.py) [Not needed] ,from pyld import jsonld, to implement HateOas
 
 services:

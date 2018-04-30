@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="whalefisher-manager",
-    version="0.3",
+    version="0.4",
     packages=find_packages(),
 
 
@@ -10,7 +10,9 @@ setup(
         "pyaml",
         "flask",
         "pyinstaller",
-        "docker"
+        "docker",
+        "eventlet",
+        "flask_socketio"
     ],
 
     # package_data={
