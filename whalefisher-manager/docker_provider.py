@@ -104,6 +104,7 @@ def get_container_by_task_id(service_name, task_id):
 
 
     provider_port = '8086'
+
     if tasks:
         tasks_json = get_tasks_json(tasks, service_name)
     else:
@@ -120,9 +121,9 @@ def get_container_by_task_id(service_name, task_id):
             if node['id'] == task_node_id:
                 provider_ip = node['ip']
 
-        req_get_name = requests.get('http://{}:{}/container'.format(provider_ip, provider_port))
+        req_get_container = requests.get('http://{}:{}/container'.format(provider_ip, provider_port))
 
-        for container in req_get_name.json():
+        for container in req_get_container.json():
             if task_slot is not None and str(container['name']).startswith('{}.{}'.format(service_name, task_slot)):
                 return container['id']
             elif str(container['name']).startswith('{}'.format(service_name)):

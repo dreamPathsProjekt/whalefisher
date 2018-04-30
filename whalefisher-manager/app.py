@@ -95,7 +95,12 @@ def get_tasks_by_id(name, id):
 
 @app.route('/service/<string:name>/tasks/<string:id>/test')
 def get_logs_by_task_id(name, id):
-    return jsonify(get_container_by_task_id(name, id))
+    cont_id = get_container_by_task_id(name, id)
+
+    if cont_id is None:
+        abort(404)
+
+    return jsonify(cont_id)
 
 
 @app.route('/node')
