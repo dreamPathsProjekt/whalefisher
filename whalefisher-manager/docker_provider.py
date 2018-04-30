@@ -131,7 +131,7 @@ def get_node_json():
     for node in nodes:
         # Warning if leader => ip == 0.0.0.0
         if 'ManagerStatus' in node.attrs.keys():
-            if node.attrs['ManagerStatus']['Leader'] == 'true':
+            if 'Leader' in node.attrs['ManagerStatus'].keys() and node.attrs['ManagerStatus']['Leader']:
                 node_ip = node.attrs['ManagerStatus']['Addr'].split(':')[0]
             else:
                 node_ip = node.attrs['Status']['Addr']
