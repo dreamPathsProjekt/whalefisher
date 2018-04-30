@@ -114,7 +114,7 @@ def get_logs_stream(id):
             yield str(log, 'utf-8').strip() + '\n'
             container.reload()
 
-    return Response(generate_stream(),  mimetype='text/event-stream')
+    return Response(generate_stream(),  mimetype='text/plain')
 
 
 @app.route('/container/<string:id>/logs/tail/<int:lines>')
@@ -128,7 +128,7 @@ def get_logs_stream_tail(id, lines):
             yield str(log, 'utf-8').strip() + '\n'
             container.reload()
 
-    return Response(generate_stream(),  mimetype='text/event-stream')
+    return Response(generate_stream(),  mimetype='text/plain')
 
 
 if __name__ == "__main__":
