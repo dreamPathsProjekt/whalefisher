@@ -52,14 +52,14 @@ version: "3.3"
 
     # 0.5.1 Streaming requests succeeded without sockets, using chunk size=1024
     # 0.5.2 Test again using iter_lines -> Success
-    # 0.5.2.1 Test with text/plain instead of text/event-stream
+    # 0.5.2.1, 0.5.3 Test with text/plain instead of text/event-stream -> Success with Firefox, Edge
 
     # 0.3 or 0.4 Import pyld (setup.py) [Not needed] ,from pyld import jsonld, to implement HateOas
 
 services:
 
   whalefisher-manager:
-    image: registry.dream:5001/whalefisher-manager:0.5.2
+    image: registry.dream:5001/whalefisher-manager:0.5.3
     deploy:
       replicas: 1
     environment:
@@ -70,7 +70,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   whalefisher-data_provider:
-    image: registry.dream:5001/whalefisher-data_provider:0.5.2
+    image: registry.dream:5001/whalefisher-data_provider:0.5.3
     deploy:
       mode: global
       endpoint_mode: dnsrr
