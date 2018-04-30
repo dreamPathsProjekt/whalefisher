@@ -1,6 +1,6 @@
 import docker
 import os
-
+import requests
 
 def provide_client(fn):
 
@@ -97,6 +97,22 @@ def get_tasks_json(tasks, service_name_input):
     return task_list
 
 
+def get_container_by_task_id(service_name, task_id):
+
+    tasks = get_running_tasks(service_name, task_id=task_id)
+
+    if tasks:
+        tasks_json = get_tasks_json(tasks, service_name)
+    else:
+        tasks_json = []
+
+    if tasks_json != []:
+        if len(tasks_json) > 1:
+            return None
+
+        # req_get_name = requests.get('http://10.132.0.28:8086/container')
+
+
 @provide_client
 def get_nodes(client=None):
     return client.nodes.list()
@@ -113,10 +129,17 @@ def get_node_json():
     nodes_list = []
 
     for node in nodes:
+        # Warning if leader => ip == 0.0.0.0
+        if 'ManagerStatus' in node.attrs.keys():
+            if node.attrs['ManagerStatus']['Leader'] == 'true':
+                node_ip = node.attrs['ManagerStatus']['Addr'].split(':')[0]
+            else:
+                node_ip = node.attrs['Status']['Addr']
+
         nodes_dict = dict(id=node.id,
                           availability=node.attrs['Spec']['Availability'],
                           hostname=node.attrs['Description']['Hostname'],
-                          ip=node.attrs['Status']['Addr'],  # use this to filter containers
+                          ip=node_ip,  # use this to filter containers
                           labels=node.attrs['Spec']['Labels'])
         nodes_list.append(nodes_dict)
 

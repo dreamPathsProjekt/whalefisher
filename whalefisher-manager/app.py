@@ -92,6 +92,9 @@ def get_tasks_by_id(name, id):
 
     return jsonify(tasks[0])
 
+@app.route('/service/<string:name>/tasks/<string:id>/logs')
+def get_logs_by_task_id(name, id):
+    cont_id = get_container_by_task_id(name, id)
 
 @app.route('/node')
 def get_nodes_hostnames():
