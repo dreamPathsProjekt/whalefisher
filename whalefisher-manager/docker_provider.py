@@ -62,10 +62,12 @@ def get_service_json_by_name(service_name):
     return [dict(id=service.id, name=service.name) for service in services]
 
 
-def get_running_tasks(service_name):
+def get_running_tasks(service_name, task_id=None):
     service = get_service_by_name(service_name)
 
     if service is not None:
+        if task_id is not None:
+            return service.tasks(filters={"desired-state": "running", "id": task_id})
         return service.tasks(filters={"desired-state": "running"})
 
     return []

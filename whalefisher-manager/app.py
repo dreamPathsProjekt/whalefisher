@@ -79,6 +79,20 @@ def get_tasks_by_service_name(name):
     return jsonify(tasks)
 
 
+@app.route('/service/<string:name>/tasks/<string:id>')
+def get_tasks_by_id(name, id):
+
+    tasks = get_tasks_json(tasks=get_running_tasks(name, task_id=id), service_name_input=name)
+
+    if len(tasks) == 0:
+        abort(404)
+
+    if len(tasks) > 1:
+        return jsonify({'message': 'Multiple Tasks Found'})
+
+    return jsonify(tasks)
+
+
 @app.route('/node')
 def get_nodes_hostnames():
     return jsonify(get_node_json())
