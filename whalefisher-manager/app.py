@@ -8,6 +8,7 @@ from docker import client
 import json
 
 from flask_socketio import SocketIO
+import eventlet
 
 from docker_provider import *
 
@@ -15,6 +16,8 @@ from docker_provider import *
 app = Flask(__name__)
 # Redirect with or without slashes
 app.url_map.strict_slashes = False
+
+eventlet.monkey_patch()
 socketio = SocketIO(app)
 
 
@@ -123,4 +126,4 @@ def get_logs_compact():
 
 if __name__ == "__main__":
     # app.run(debug=True, host='0.0.0.0', port=5000, use_evalex=False, threaded=False)
-    socketio.run(app)
+    socketio.run(app,  host='0.0.0.0', port=5000, debug=False)

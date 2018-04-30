@@ -7,6 +7,7 @@ from flask import stream_with_context
 
 
 from flask_socketio import SocketIO
+import eventlet
 
 from docker import client
 import json
@@ -22,6 +23,8 @@ from docker_provider import *
 app = Flask(__name__)
 # Redirect with or without slashes
 app.url_map.strict_slashes = False
+
+eventlet.monkey_patch()
 socketio = SocketIO(app)
 
 
@@ -131,4 +134,4 @@ def get_logs_stream_tail(id, lines):
 
 if __name__ == "__main__":
     # app.run(debug=True, host='0.0.0.0', port=5000, use_evalex=False, threaded=True)
-    socketio.run(app)
+    socketio.run(app,  host='0.0.0.0', port=5000, debug=False)
