@@ -60,6 +60,8 @@ version: "3.3"
     # 0.5.8 Add routes for logs, /compact, /stream, /tail/:lines, 0.5.8.1 Resize chunk size to 256 for tail
     # 0.5.9 Clean up docker_provider get container by task function, provider_port as constant
 
+    # Reminder to change data-provider port on each environment
+
     # 0.3 or 0.4 Import pyld (setup.py) [Not needed] ,from pyld import jsonld, to implement HateOas
 
 services:
