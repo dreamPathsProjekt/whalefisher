@@ -90,7 +90,7 @@ def get_tasks_by_id(name, id):
     if len(tasks) > 1:
         return jsonify({'message': 'Multiple Tasks Found'})
 
-    return jsonify(tasks)
+    return jsonify(tasks[0])
 
 
 @app.route('/node')
