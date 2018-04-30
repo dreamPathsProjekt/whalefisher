@@ -93,14 +93,75 @@ def get_tasks_by_id(name, id):
     return jsonify(tasks[0])
 
 
-@app.route('/service/<string:name>/tasks/<string:id>/test')
+@app.route('/service/<string:name>/tasks/<string:id>/logs')
 def get_logs_by_task_id(name, id):
-    cont_id = get_container_by_task_id(name, id)
+    cont_json = get_container_by_task_id(name, id)
 
-    if cont_id is None:
+    if cont_json is None:
         abort(404)
 
-    return jsonify(cont_id)
+    request_json = requests.get('http://{}:{}/container/{}/logs'.format(
+        cont_json['node_ip'],
+        cont_json['node_port'],
+        cont_json['container_id']))
+
+    return jsonify(request_json.json())
+
+
+@app.route('/service/<string:name>/tasks/<string:id>/logs/compact')
+def get_logs_by_task_id_compact(name, id):
+    cont_json = get_container_by_task_id(name, id)
+
+    if cont_json is None:
+        abort(404)
+
+    request_json = requests.get('http://{}:{}/container/{}/logs/compact'.format(
+        cont_json['node_ip'],
+        cont_json['node_port'],
+        cont_json['container_id']))
+
+    return jsonify(request_json.json())
+
+
+@app.route('/service/<string:name>/tasks/<string:id>/logs/stream')
+def get_logs_by_task_id_stream(name, id):
+    cont_json = get_container_by_task_id(name, id)
+
+    if cont_json is None:
+        abort(404)
+
+    request_stream = requests.get('http://{}:{}/container/{}/logs/stream'.format(
+        cont_json['node_ip'],
+        cont_json['node_port'],
+        cont_json['container_id']),
+        stream=True)
+
+    def generate_from_provider():
+        for line in request_stream.iter_lines(chunk_size=2048, decode_unicode=True):
+            yield str(line).strip() + '\n'
+
+    return Response(generate_from_provider(), mimetype='text/plain')
+
+
+@app.route('/service/<string:name>/tasks/<string:id>/logs/tail/<int:lines>')
+def get_logs_by_task_id_stream_tail(name, id, lines):
+    cont_json = get_container_by_task_id(name, id)
+
+    if cont_json is None:
+        abort(404)
+
+    request_stream = requests.get('http://{}:{}/container/{}/logs/tail/{}'.format(
+        cont_json['node_ip'],
+        cont_json['node_port'],
+        cont_json['container_id'],
+        lines),
+        stream=True)
+
+    def generate_from_provider():
+        for line in request_stream.iter_lines(chunk_size=2048, decode_unicode=True):
+            yield str(line).strip() + '\n'
+
+    return Response(generate_from_provider(), mimetype='text/plain')
 
 
 @app.route('/node')

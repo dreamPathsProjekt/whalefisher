@@ -125,9 +125,17 @@ def get_container_by_task_id(service_name, task_id):
 
         for container in req_get_container.json():
             if task_slot is not None and str(container['name']).startswith('{}.{}'.format(service_name, task_slot)):
-                return container['id']
+                return dict(
+                    container_id=container['id'],
+                    node_ip=provider_ip,
+                    node_port=provider_port
+                    )
             elif str(container['name']).startswith('{}'.format(service_name)):
-                return container['id']
+                return dict(
+                    container_id=container['id'],
+                    node_ip=provider_ip,
+                    node_port=provider_port
+                    )
     return None
 
 
