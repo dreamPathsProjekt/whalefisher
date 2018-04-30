@@ -7,6 +7,7 @@ LABEL maintainer="dream.paths.projekt@gmail.com"
 RUN mkdir -p /usr/src/whalefisher
 WORKDIR /usr/src/whalefisher
 
+RUN apk add --no-cache python3-dev libevent-dev
 # add requirements (to leverage Docker cache)
 ADD ./setup.py /usr/src/whalefisher/setup.py
 
