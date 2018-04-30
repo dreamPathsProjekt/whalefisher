@@ -8,7 +8,7 @@ setup(
 
     install_requires=[
         "pyaml",
-        "flask",
+        "flask==1.0.1",
         "pyinstaller",
         "docker",
         "eventlet",
