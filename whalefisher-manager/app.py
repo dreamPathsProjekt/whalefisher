@@ -105,7 +105,7 @@ def test_streaming_logs():
     #     print(line)
     def generate_from_provider():
         for line in request_stream.iter_lines(chunk_size=2048, decode_unicode=True):
-            yield line
+            yield str(line).strip() + '\n'
 
     return Response(generate_from_provider(), mimetype='text/plain')
 
