@@ -9,6 +9,7 @@ import json
 
 from flask_socketio import SocketIO
 import eventlet
+import requests
 
 from docker_provider import *
 
@@ -88,41 +89,26 @@ def get_current_node():
     return jsonify(get_current_nodename())
 
 
-@app.route('/container')
-def containers_route():
-    return jsonify(get_container_json())
+@app.route('/teststream')
+def test_streaming_logs():
+    # Below to be handled by middleware module
+    req_get_name = requests.get('http://10.132.0.28:8086/container')
 
+    cont_id = ''
+    for container in req_get_name.json():
+        if str(container['name']).startswith('ifg_logstash'):
+            cont_id = container['id']
 
-@app.route('/logs')
-def get_logs():
-    containers = get_containers()[2]
+    request_stream = requests.get('http://10.132.0.28:8086/container/{}/logs/tail/20'.format(cont_id), stream=True)
 
-    logs = str(containers.logs(timestamps=True, stream=False), encoding='utf-8').split('\n')
+    # for line in request_stream.iter_content(chunk_size=2048, decode_unicode=True):
+    #     print(line)
+    def generate_from_provider():
+        for line in request_stream.iter_lines(chunk_size=2048, decode_unicode=True):
+            yield line
 
-    # def generate_stream(logs):
-    #     for log in logs:
-    #         yield str(log, 'utf-8').strip() + '\n'
-    lines = []
-    key = 0
-    for log in logs:
-        log_json = {
-            "Name": containers.name,
-            "Line {}".format(key): log
-        }
-        lines.append(log_json)
-        key += 1
+    return Response(generate_from_provider(), mimetype='text/plain')
 
-    containers.reload()
-
-    return jsonify(lines)
-
-
-@app.route('/logs/compact')
-def get_logs_compact():
-    containers = get_containers()[1]
-    logs = str(containers.logs(timestamps=True, stream=False), encoding='utf-8').split('\n')
-
-    return jsonify(logs)
 
 if __name__ == "__main__":
     # app.run(debug=True, host='0.0.0.0', port=5000, use_evalex=False, threaded=False)
