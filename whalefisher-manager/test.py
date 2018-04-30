@@ -66,9 +66,12 @@ if __name__ == "__main__":
         if str(container['name']).startswith('ifg_logstash'):
             cont_id = container['id']
 
-    request_stream = requests.get('http://10.132.0.28:8086/container/{}/logs/stream'.format(cont_id), stream=True)
+    request_stream = requests.get('http://10.132.0.28:8086/container/{}/logs/tail/20'.format(cont_id), stream=True)
 
-    for line in request_stream.iter_content(chunk_size=1024, decode_unicode=True):
+    # for line in request_stream.iter_content(chunk_size=2048, decode_unicode=True):
+    #     print(line)
+
+    for line in request_stream.iter_lines(chunk_size=2048, decode_unicode=True):
         print(line)
 
     # request1 = requests.get('http://10.132.0.11:8086/node/current')

@@ -50,6 +50,9 @@ version: "3.3"
     # 0.4.3 Add async mode on SocketIO init
     # 0.5 Include socketIO_client
 
+    # 0.5.1 Streaming requests succeeded without sockets, using chunk size=1024
+    # 0.5.2 Test again using iter_lines
+
     # 0.3 or 0.4 Import pyld (setup.py) [Not needed] ,from pyld import jsonld, to implement HateOas
 
 services:
