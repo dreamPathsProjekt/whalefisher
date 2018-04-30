@@ -25,7 +25,7 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 
 eventlet.monkey_patch()
-socketio = SocketIO(app)
+socketio = SocketIO(app, async_mode='eventlet')
 
 
 @app.route('/')
@@ -134,4 +134,4 @@ def get_logs_stream_tail(id, lines):
 
 if __name__ == "__main__":
     # app.run(debug=True, host='0.0.0.0', port=5000, use_evalex=False, threaded=True)
-    socketio.run(app,  host='0.0.0.0', port=5000, debug=False, threaded=True, async_mode='eventlet')
+    socketio.run(app,  host='0.0.0.0', port=5000, debug=False)
