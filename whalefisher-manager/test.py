@@ -3,8 +3,10 @@ import time
 import os
 import requests
 
+
 from pprint import pprint
 import json
+
 
 def get_services(client):
     return client.services.list()
@@ -56,7 +58,7 @@ if __name__ == "__main__":
 
     client = docker.client.from_env()
     # pprint(os.environ)
-    print('Test ')
+    # print('Test ')
     req_get_name = requests.get('http://10.132.0.2:8080/container')
 
     cont_id = ''
@@ -64,13 +66,15 @@ if __name__ == "__main__":
         if str(container['name']).startswith('whale_whalefisher-data_provider'):
             cont_id = container['id']
 
-    request_stream = requests.get('http://10.132.0.2:8080/container/{}/logs/stream'.format(cont_id), stream=True)
+    # request_stream = requests.get('http://10.132.0.2:8080/container/{}/logs/stream'.format(cont_id), stream=True)
 
-    for char in request_stream.iter_content(chunk_size=1000, decode_unicode=False):
-        line = ''
-        while str(char) != '\n':
-            line += str(char)
-        print(line)
+    # for char in request_stream.iter_content(chunk_size=1000, decode_unicode=False):
+    #     line = ''
+    #     while str(char) != '\n':
+    #         line += str(char)
+    #     print(line)
+
+    print('Web Socket Test')
     # request1 = requests.get('http://10.132.0.11:8086/node/current')
     # request2 = requests.get('http://10.132.0.28:8086/node/current')
 

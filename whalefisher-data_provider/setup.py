@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="whalefisher-data_provider",
-    version="0.4",
+    version="0.5",
     packages=find_packages(),
 
 
@@ -12,7 +12,8 @@ setup(
         "pyinstaller",
         "docker",
         "eventlet",
-        "flask_socketio"
+        "flask_socketio",
+        "socketIO_client"
     ],
 
     # package_data={

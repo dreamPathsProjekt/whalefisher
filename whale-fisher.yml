@@ -48,13 +48,14 @@ version: "3.3"
     # 0.4 Setup.py install eventlet, flask-socketio, 0.4.1 fix app.run()
     # 0.4.2 Add threaded server
     # 0.4.3 Add async mode on SocketIO init
+    # 0.5 Include socketIO_client
 
     # 0.3 or 0.4 Import pyld (setup.py) [Not needed] ,from pyld import jsonld, to implement HateOas
 
 services:
 
   whalefisher-manager:
-    image: registry.dream:5001/whalefisher-manager:0.4.3
+    image: registry.dream:5001/whalefisher-manager:0.5
     deploy:
       replicas: 1
     environment:
@@ -65,7 +66,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   whalefisher-data_provider:
-    image: registry.dream:5001/whalefisher-data_provider:0.4.3
+    image: registry.dream:5001/whalefisher-data_provider:0.5
     deploy:
       mode: global
       endpoint_mode: dnsrr

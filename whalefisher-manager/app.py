@@ -13,11 +13,11 @@ import eventlet
 from docker_provider import *
 
 
+eventlet.monkey_patch()
 app = Flask(__name__)
 # Redirect with or without slashes
 app.url_map.strict_slashes = False
 
-eventlet.monkey_patch()
 socketio = SocketIO(app, async_mode='eventlet')
 
 

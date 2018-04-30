@@ -19,12 +19,11 @@ from docker_provider import *
 # When the application is in debug mode the Werkzeug development server is still used and configured properly inside socketio.run().
 # In production mode the eventlet web server is used if available, else the gevent web server is used.
 # If eventlet and gevent are not installed, the Werkzeug development web server is used.
-
+eventlet.monkey_patch()
 app = Flask(__name__)
 # Redirect with or without slashes
 app.url_map.strict_slashes = False
 
-eventlet.monkey_patch()
 socketio = SocketIO(app, async_mode='eventlet')
 
 
