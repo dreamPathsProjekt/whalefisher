@@ -99,8 +99,11 @@ def get_tasks_json(tasks, service_name_input):
 
 def get_container_by_task_id(service_name, task_id):
 
+    nodes = get_node_json()
     tasks = get_running_tasks(service_name, task_id=task_id)
 
+
+    provider_port = '8086'
     if tasks:
         tasks_json = get_tasks_json(tasks, service_name)
     else:
@@ -110,7 +113,23 @@ def get_container_by_task_id(service_name, task_id):
         if len(tasks_json) > 1:
             return None
 
-        # req_get_name = requests.get('http://10.132.0.28:8086/container')
+        task_node_id = tasks_json[0]['node_id']
+        task_slot = tasks_json[0]['slot']
+
+        for node in nodes:
+            if node['id'] == task_node_id:
+                provider_ip = node['ip']
+
+        req_get_name = requests.get('http://{}:{}/container'.format(provider_ip, provider_port))
+
+        for container in req_get_name.json():
+            if task_slot is not None and str(container['name']).startswith('{}.{}'.format(service_name, task_slot)):
+                return container['id']
+            elif str(container['name']).startswith('{}'.format(service_name)):
+                return container['id']
+    return None
+
+
 
 
 @provide_client
