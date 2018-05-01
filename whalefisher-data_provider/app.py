@@ -110,9 +110,10 @@ def get_logs_stream(id):
     # @stream_with_context
     def generate_stream():
 
-        for log in container.logs(timestamps=True, stream=True, follow=True, stdout=True, stderr=True):
+        # for log in container.logs(timestamps=True, stream=True, follow=True, stdout=True, stderr=True):
+        for log in container.logs(stream=True):
             yield str(log, 'utf-8').strip() + '\n'
-            container.reload()
+            # container.reload()
 
     return Response(generate_stream(),  mimetype='text/plain')
 
