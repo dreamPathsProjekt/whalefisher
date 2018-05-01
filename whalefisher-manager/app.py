@@ -6,7 +6,7 @@ from flask import abort
 
 from docker import client
 import json
-
+import time
 # from flask_socketio import SocketIO
 # import eventlet
 import requests
@@ -162,6 +162,25 @@ def get_logs_by_task_id_stream_tail(name, id, lines):
             yield str(line).strip() + '\n'
 
     return Response(generate_from_provider(), mimetype='text/plain', content_type='text/event-stream')
+
+
+@app.route('/service/<string:name>/tasks/<string:id>/logs/stream/compact')
+def stream_logs_from_compact(name, id):
+    cont_json = get_container_by_task_id(name, id)
+
+    if cont_json is None:
+        abort(404)
+
+    def stream_compact():
+        while True:
+            request_json = requests.get('http://{}:{}/container/{}/logs/compact'.format(
+                cont_json['node_ip'],
+                cont_json['node_port'],
+                cont_json['container_id']))
+            yield request_json.json()
+            time.sleep(1)
+
+    return Response(stream_compact(), mimetype='application/json')
 
 
 @app.route('/node')
