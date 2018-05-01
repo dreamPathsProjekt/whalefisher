@@ -64,6 +64,7 @@ version: "3.3"
     # 0.5.9.4 Install curl on manager
     # 0.5.10 Add version=auto on docker client
     # 0.5.11 Add container.logs logs=True parameter, 0.5.12, 0.5.13
+    # 0.5.14 Docker client not closed
 
     # Reminder to change data-provider port on each environment
 
@@ -72,7 +73,7 @@ version: "3.3"
 services:
 
   whalefisher-manager:
-    image: registry.dream:5001/whalefisher-manager:0.5.13
+    image: registry.dream:5001/whalefisher-manager:0.5.14
     deploy:
       replicas: 1
     environment:
@@ -84,7 +85,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   whalefisher-data_provider:
-    image: registry.dream:5001/whalefisher-data_provider:0.5.13
+    image: registry.dream:5001/whalefisher-data_provider:0.5.14
     deploy:
       mode: global
       endpoint_mode: dnsrr
