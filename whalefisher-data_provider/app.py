@@ -114,7 +114,7 @@ def get_logs_stream(id):
             yield str(log, 'utf-8').strip() + '\n'
             container.reload()
 
-    return Response(generate_stream(),  mimetype='text/plain')
+    return Response(generate_stream(),  mimetype='text/event-stream')
 
 
 @app.route('/container/<string:id>/logs/tail/<int:lines>')
@@ -133,4 +133,4 @@ def get_logs_stream_tail(id, lines):
 
 if __name__ == "__main__":
     # app.run(debug=True, host='0.0.0.0', port=5000, use_evalex=False, threaded=True)
-    socketio.run(app,  host='0.0.0.0', port=5000, debug=True)
+    socketio.run(app,  host='0.0.0.0', port=5000, debug=False)
