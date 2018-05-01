@@ -140,7 +140,7 @@ def get_logs_by_task_id_stream(name, id):
         for line in request_stream.iter_lines(chunk_size=1024, decode_unicode=True):
             yield str(line).strip() + '\n'
 
-    return Response(generate_from_provider(), mimetype='text/plain')
+    return Response(generate_from_provider(), mimetype='text/plain', content_type='text/event-stream')
 
 
 @app.route('/service/<string:name>/tasks/<string:id>/logs/tail/<int:lines>')
@@ -161,7 +161,7 @@ def get_logs_by_task_id_stream_tail(name, id, lines):
         for line in request_stream.iter_lines(chunk_size=1024, decode_unicode=True):
             yield str(line).strip() + '\n'
 
-    return Response(generate_from_provider(), mimetype='text/plain')
+    return Response(generate_from_provider(), mimetype='text/plain', content_type='text/event-stream')
 
 
 @app.route('/node')
@@ -192,9 +192,9 @@ def test_streaming_logs():
         for line in request_stream.iter_lines(chunk_size=2048, decode_unicode=True):
             yield str(line).strip() + '\n'
 
-    return Response(generate_from_provider(), mimetype='text/plain')
+    return Response(generate_from_provider(), mimetype='text/plain', content_type='text/event-stream')
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5000, use_evalex=False, threaded=True)
+    app.run(debug=False, host='0.0.0.0', port=5000, use_evalex=False, threaded=True)
     # socketio.run(app,  host='0.0.0.0', port=5000, debug=False)
