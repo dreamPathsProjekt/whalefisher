@@ -7,7 +7,7 @@ def provide_client(fn):
     def wrapper(*args, **kwargs):
         docker_client = docker.client.from_env(version='auto')
         result = fn(client=docker_client, *args, **kwargs)
-        # docker_client.close()
+        docker_client.close()
 
         return result
 
