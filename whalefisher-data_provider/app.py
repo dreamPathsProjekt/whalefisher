@@ -19,12 +19,13 @@ from docker_provider import *
 # When the application is in debug mode the Werkzeug development server is still used and configured properly inside socketio.run().
 # In production mode the eventlet web server is used if available, else the gevent web server is used.
 # If eventlet and gevent are not installed, the Werkzeug development web server is used.
-eventlet.monkey_patch()
+
+# eventlet.monkey_patch()
 app = Flask(__name__)
 # Redirect with or without slashes
 app.url_map.strict_slashes = False
 
-socketio = SocketIO(app, async_mode='eventlet')
+# socketio = SocketIO(app, async_mode='eventlet')
 
 
 @app.route('/')
@@ -110,10 +111,9 @@ def get_logs_stream(id):
     # @stream_with_context
     def generate_stream():
 
-        # for log in container.logs(timestamps=True, stream=True, follow=True, stdout=True, stderr=True):
-        for log in container.logs(stream=True):
+        for log in container.logs(timestamps=True, stream=True, follow=True, stdout=True, stderr=True):
             yield str(log, 'utf-8').strip() + '\n'
-            # container.reload()
+            container.reload()
 
     return Response(generate_stream(),  mimetype='text/plain')
 
@@ -144,5 +144,5 @@ def test_streaming_output():
     return Response(generate(), mimetype='text/plain')
 
 if __name__ == "__main__":
-    # app.run(debug=True, host='0.0.0.0', port=5000, use_evalex=False, threaded=True)
-    socketio.run(app,  host='0.0.0.0', port=5000, debug=False)
+    app.run(debug=True, host='0.0.0.0', port=5000, use_evalex=False, threaded=True)
+    # socketio.run(app,  host='0.0.0.0', port=5000, debug=False)
