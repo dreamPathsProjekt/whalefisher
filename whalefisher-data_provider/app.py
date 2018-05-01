@@ -124,7 +124,7 @@ def get_logs_stream_tail(id, lines):
     # @stream_with_context
     def generate_stream():
 
-        for log in container.logs(timestamps=True, stream=True, follow=True, stdout=True, stderr=True, logs=True tail=lines):
+        for log in container.logs(timestamps=True, stream=True, follow=True, stdout=True, stderr=True, logs=True, tail=lines):
             yield str(log, 'utf-8').strip() + '\n'
             container.reload()
 
