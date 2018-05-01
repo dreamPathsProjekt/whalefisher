@@ -5,7 +5,7 @@ import os
 def provide_client(fn):
 
     def wrapper(*args, **kwargs):
-        docker_client = docker.client.from_env(version='auto')
+        docker_client = docker.client.from_env(version='1.30')
         result = fn(client=docker_client, *args, **kwargs)
         docker_client.close()
 

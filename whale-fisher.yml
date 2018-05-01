@@ -66,6 +66,7 @@ version: "3.3"
     # 0.5.11 Add container.logs logs=True parameter, 0.5.12, 0.5.13
     # 0.5.14 Docker client not closed
     # 0.5.15 Set debug=True on server, 0.5.16 change logs/stream to text/event-stream, 0.5.17 route streamout
+    # 0.5.18 Docker api 1.30 fixed
 
     # Reminder to change data-provider port on each environment
 
@@ -74,7 +75,7 @@ version: "3.3"
 services:
 
   whalefisher-manager:
-    image: registry.dream:5001/whalefisher-manager:0.5.17
+    image: registry.dream:5001/whalefisher-manager:0.5.18
     deploy:
       replicas: 1
     environment:
@@ -86,7 +87,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   whalefisher-data_provider:
-    image: registry.dream:5001/whalefisher-data_provider:0.5.17
+    image: registry.dream:5001/whalefisher-data_provider:0.5.18
     deploy:
       mode: global
       endpoint_mode: dnsrr
