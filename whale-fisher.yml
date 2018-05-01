@@ -59,6 +59,7 @@ version: "3.3"
     # 0.5.7 Implement return container id from task id & service name, 0.5.7.1 Return not found
     # 0.5.8 Add routes for logs, /compact, /stream, /tail/:lines, 0.5.8.1 Resize chunk size to 256 for tail
     # 0.5.9 Clean up docker_provider get container by task function, provider_port as constant
+    # 0.5.9.1 Data provider port as env variable
 
     # Reminder to change data-provider port on each environment
 
@@ -67,18 +68,19 @@ version: "3.3"
 services:
 
   whalefisher-manager:
-    image: registry.dream:5001/whalefisher-manager:0.5.9
+    image: registry.dream:5001/whalefisher-manager:0.5.9.1
     deploy:
       replicas: 1
     environment:
       - DOCKER_NODE={{.Node.Hostname}}
+      - DATA_PROVIDER_PORT=8080
     ports:
       - "80:5000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
   whalefisher-data_provider:
-    image: registry.dream:5001/whalefisher-data_provider:0.5.9
+    image: registry.dream:5001/whalefisher-data_provider:0.5.9.1
     deploy:
       mode: global
       endpoint_mode: dnsrr
