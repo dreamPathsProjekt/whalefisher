@@ -7,19 +7,19 @@ from flask import abort
 from docker import client
 import json
 
-from flask_socketio import SocketIO
-import eventlet
+# from flask_socketio import SocketIO
+# import eventlet
 import requests
 
 from docker_provider import *
 
 
-eventlet.monkey_patch()
+# eventlet.monkey_patch()
 app = Flask(__name__)
 # Redirect with or without slashes
 app.url_map.strict_slashes = False
 
-socketio = SocketIO(app, async_mode='eventlet')
+# socketio = SocketIO(app, async_mode='eventlet')
 
 
 @app.route('/')
@@ -196,5 +196,5 @@ def test_streaming_logs():
 
 
 if __name__ == "__main__":
-    # app.run(debug=True, host='0.0.0.0', port=5000, use_evalex=False, threaded=False)
-    socketio.run(app,  host='0.0.0.0', port=5000, debug=False)
+    app.run(debug=True, host='0.0.0.0', port=5000, use_evalex=False, threaded=False)
+    # socketio.run(app,  host='0.0.0.0', port=5000, debug=False)

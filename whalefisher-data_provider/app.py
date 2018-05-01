@@ -6,8 +6,8 @@ from flask import abort
 from flask import stream_with_context
 
 
-from flask_socketio import SocketIO
-import eventlet
+# from flask_socketio import SocketIO
+# import eventlet
 
 from docker import client
 import json
