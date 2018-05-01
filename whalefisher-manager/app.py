@@ -177,7 +177,7 @@ def stream_logs_from_compact(name, id):
                 cont_json['node_ip'],
                 cont_json['node_port'],
                 cont_json['container_id']))
-            yield request_json.json()
+            yield json.dumps(request_json.json())
             time.sleep(1)
 
     return Response(stream_compact(), mimetype='application/json')
