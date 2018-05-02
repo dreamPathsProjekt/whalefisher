@@ -113,7 +113,7 @@ services:
     environment:
       - DOCKER_NODE={{.Node.Hostname}}
       - DATA_PROVIDER_PORT=8080
-      - 'EXT_DOMAIN_NAME=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip)'
+      - "EXT_DOMAIN_NAME=$$(curl -H 'Metadata-Flavor: Google' http://metadata/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip)"
       # Above only works for gcloud compute instances, use own ip or domain name to generate uris
     ports:
       - "80:5000"
