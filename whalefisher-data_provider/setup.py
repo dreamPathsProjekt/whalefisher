@@ -13,7 +13,8 @@ setup(
         "docker==3.3.0",
         "eventlet",
         "flask_socketio",
-        "socketIO_client"
+        "socketIO_client",
+        "flask_hal"
     ],
 
     # package_data={
