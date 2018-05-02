@@ -3,12 +3,13 @@ from flask import jsonify
 from flask import Response
 from flask import make_response
 from flask import abort
+from flask import url_for
 
 from docker import client
 import json
 import time
 
-from flask_hal import HAL, document
+from flask_hal import HAL, document, link
 
 # from flask_socketio import SocketIO
 # import eventlet
@@ -56,9 +57,14 @@ def test_error_handler():
 
 @app.route('/service')
 def get_services_route():
-    return document.Document(data={
+    return document.Document(
+        data={
         "services": get_service_json()
-    })
+        },
+        links={
+        '_links': link.Link(rel='self', href=url_for('/service'))
+        }
+    )
 
 
 @app.route('/service/<string:name>')
