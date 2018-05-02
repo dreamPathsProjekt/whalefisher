@@ -115,13 +115,12 @@ def get_logs_stream(id):
             logs = container.logs(timestamps=True, stream=True, follow=True)
             for log in logs:
                 print(log)
-
-            yield from logs
+                yield log
 
         except docker.errors.APIError:
             yield 'Error from Docker Api\n'
 
-    return Response(generate_stream())
+    return Response(generate_stream(), mimetype='text/plain')
 
 
 @app.route('/container/<string:id>/logs/tail/<int:lines>')
@@ -134,13 +133,12 @@ def get_logs_stream_tail(id, lines):
             logs = container.logs(timestamps=True, stream=True, follow=True, tail=lines)
             for log in logs:
                 print(log)
-
-            yield from logs
+                yield log
 
         except docker.errors.APIError:
             yield 'Error from Docker Api\n'
 
-    return Response(generate_tail())
+    return Response(generate_tail(), mimetype='text/plain')
 
 
 if __name__ == "__main__":
