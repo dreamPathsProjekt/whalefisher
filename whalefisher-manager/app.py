@@ -62,7 +62,7 @@ def get_services_route():
         "services": get_service_json()
         },
         links={
-        '_links': link.Link(rel='self', href=url_for('/service'))
+        '_links': link.Link(rel='self', href=url_for('get_services_route'))
         }
     )
 
