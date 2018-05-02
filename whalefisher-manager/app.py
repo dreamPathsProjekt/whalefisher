@@ -137,8 +137,9 @@ def get_logs_by_task_id_stream(name, id):
         stream=True)
 
     def generate_from_provider():
-        for line in request_stream.iter_lines(chunk_size=1024, decode_unicode=True):
-            yield str(line).strip() + '\n'
+        for line in request_stream.iter_lines(chunk_size=1024):
+            # yield str(line).strip() + '\n'
+            yield line
 
     return Response(generate_from_provider(), mimetype='text/plain')
 
@@ -158,8 +159,9 @@ def get_logs_by_task_id_stream_tail(name, id, lines):
         stream=True)
 
     def generate_from_provider():
-        for line in request_stream.iter_lines(decode_unicode=True):
-            yield str(line).strip() + '\n'
+        for line in request_stream.iter_lines():
+            # yield str(line).strip() + '\n'
+            yield line
 
     return Response(generate_from_provider(), mimetype='text/plain')
 
