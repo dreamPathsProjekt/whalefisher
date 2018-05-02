@@ -85,6 +85,7 @@ version: "3.3"
     # 0.7.4 Use sleep(1) between reading lines
     # 0.7.5 Use next() in generator instead of for
     # 0.7.6 Use yield from instead of iterating logs. 0.7.6.1, 0.7.6.2, 0.7.6.3, 0.7.6.4
+    # 0.7.7 Return generator with direct_passthrough
 
     # Reminder to change data-provider port on each environment
 
