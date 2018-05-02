@@ -64,7 +64,7 @@ def get_services_route():
         data={
         "services": get_service_json()
         },
-        links=Collection(Link(rel='self', href=url_for('get_services_route'))
+        links=Collection(Link(rel='self', href=url_for('get_services_route')))
     )
 
 
