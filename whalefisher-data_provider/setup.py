@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="whalefisher-data_provider",
-    version="0.7",
+    version="0.8",
     packages=find_packages(),
 
 
