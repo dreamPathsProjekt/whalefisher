@@ -167,7 +167,7 @@ def get_logs_by_task_id_stream_tail(name, id, lines):
     return Response(generate_from_provider(), mimetype='text/plain')
 
 
-@app.route('/service/<string:name>')
+@app.route('/service/<string:name>/logs')
 def get_service_logs(name):
 
     client = docker.APIClient(base_url='unix://var/run/docker.sock')
