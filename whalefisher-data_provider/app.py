@@ -112,16 +112,19 @@ def get_logs_stream(id):
     # @stream_with_context
     def generate_stream():
         try:
-            logs = container.logs(timestamps=True, stream=True)
-            # while True:
-            #     # yield str(log, 'utf-8').strip() + '\n'
-            #     yield logs.next()
-            #     # container.reload()
-            yield from logs
+            logs = container.logs(timestamps=True, stream=True, follow=True)
+
+            log_iter = logs.__iter__()
+            prev_log = next(log_iter)
+
+            for log in logs:
+                yield prev_log
+                prev_log = log
+
         except docker.errors.APIError:
             yield 'Error from Docker Api\n'
 
-    return app.response_class(generate_stream,  mimetype='text/plain', direct_passthrough=True)
+    return Response(generate_stream(),  mimetype='text/plain')
 
 
 @app.route('/container/<string:id>/logs/tail/<int:lines>')
@@ -131,16 +134,19 @@ def get_logs_stream_tail(id, lines):
     # @stream_with_context
     def generate_tail():
         try:
-            logs = container.logs(timestamps=True, stream=True, tail=lines)
-            # for log in container.logs(timestamps=True, stream=True, tail=lines, follow=True):
-            #     # yield str(log, 'utf-8').strip() + '\n'
-            #     yield log
-            #     # container.reload()
-            yield from logs
+            logs = container.logs(timestamps=True, stream=True, follow=True, tail=lines)
+
+            log_iter = logs.__iter__()
+            prev_log = next(log_iter)
+
+            for log in logs:
+                yield prev_log
+                prev_log = log
+
         except docker.errors.APIError:
             yield 'Error from Docker Api\n'
 
-    return app.response_class(generate_tail,  mimetype='text/plain', direct_passthrough=True)
+    return Response(generate_tail(),  mimetype='text/plain')
 
 
 if __name__ == "__main__":
