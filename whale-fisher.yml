@@ -76,6 +76,7 @@ version: "3.3"
     # 0.6.4 Use socketio eventlet server
     # 0.6.5 Flexible chunk size for tail, handle ApiError
     # 0.6.6 Resize chunk size to 2048 for tail < 20, use resource context on requests.get(stream)
+    # 0.6.7 Reset to no resource context
 
     # Reminder to change data-provider port on each environment
 
@@ -84,7 +85,7 @@ version: "3.3"
 services:
 
   whalefisher-manager:
-    image: registry.dream:5001/whalefisher-manager:0.6.6
+    image: registry.dream:5001/whalefisher-manager:0.6.7
     deploy:
       replicas: 1
     environment:
@@ -96,7 +97,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   whalefisher-data_provider:
-    image: registry.dream:5001/whalefisher-data_provider:0.6.6
+    image: registry.dream:5001/whalefisher-data_provider:0.6.7
     deploy:
       mode: global
       endpoint_mode: dnsrr
