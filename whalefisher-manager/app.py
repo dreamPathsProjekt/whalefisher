@@ -8,10 +8,11 @@ from flask import url_for
 from docker import client
 import json
 import time
+import os
 
 from flask_hal import HAL
 from flask_hal.document import Document
-from flask_hal.link import Collection, Link
+from flask_hal.link import Collection, Link, Self
 
 # from flask_socketio import SocketIO
 # import eventlet
@@ -26,7 +27,7 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 HAL(app)
 # socketio = SocketIO(app, async_mode='eventlet')
-
+URL_PREFIX = 'http://{}'.format(os.environ['EXT_DOMAIN_NAME'])
 
 @app.route('/')
 def list_routes():
@@ -39,7 +40,7 @@ def list_routes():
         })
 
     return Document(data={'routes': result, 'total': len(result)},
-        links=Collection(Link(rel='self', href=url_for('list_routes'))))
+        links=Collection(Self(href=URL_PREFIX + url_for('list_routes'))))
 
 
 @app.errorhandler(404)
@@ -64,7 +65,7 @@ def get_services_route():
         data={
         "services": get_service_json()
         },
-        links=Collection(Link(rel='self', href=url_for('get_services_route')))
+        links=Collection(Self(href=URL_PREFIX + url_for('get_services_route')))
     )
 
 

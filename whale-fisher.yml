@@ -95,9 +95,10 @@ version: "3.3"
     # 0.7.14 Return direct generators on streaming Responses -> Success
     # 0.7.14.1 Include route tail on service logs, 0.7.14.2 chunk_size=1 on manager routes
     # 0.7.15 Clean up working version 0.7.14.2
-  
+
     # 0.8 install flask_hal
     # 0.8.0 test HAL on / and /service, 0.8.0.1, 0.8.0.3, 0.8.0.4
+    # 0.8.1 Update with Self and URL_PREFIX
 
     # Reminder to change data-provider port on each environment
 
@@ -106,19 +107,21 @@ version: "3.3"
 services:
 
   whalefisher-manager:
-    image: registry.dream:5001/whalefisher-manager:0.8.0.5
+    image: registry.dream:5001/whalefisher-manager:0.8.1
     deploy:
       replicas: 1
     environment:
       - DOCKER_NODE={{.Node.Hostname}}
       - DATA_PROVIDER_PORT=8080
+      - 'EXT_DOMAIN_NAME=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip)'
+      # Above only works for gcloud compute instances, use own ip or domain name to generate uris
     ports:
       - "80:5000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
   whalefisher-data_provider:
-    image: registry.dream:5001/whalefisher-data_provider:0.8.0.5
+    image: registry.dream:5001/whalefisher-data_provider:0.8.1
     deploy:
       mode: global
       endpoint_mode: dnsrr
