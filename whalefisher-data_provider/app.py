@@ -121,7 +121,7 @@ def get_logs_stream(id):
         except docker.errors.APIError:
             yield 'Error from Docker Api\n'
 
-    return app.response_class(generate_stream(),  mimetype='text/plain')
+    return app.response_class(generate_stream(),  mimetype='text/event-stream')
 
 
 @app.route('/container/<string:id>/logs/tail/<int:lines>')
@@ -140,7 +140,7 @@ def get_logs_stream_tail(id, lines):
         except docker.errors.APIError:
             yield 'Error from Docker Api\n'
 
-    return app.response_class(generate_tail(),  mimetype='text/plain')
+    return app.response_class(generate_tail(),  mimetype='text/event-stream')
 
 
 if __name__ == "__main__":

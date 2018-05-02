@@ -84,7 +84,7 @@ version: "3.3"
     # 0.7.3 Encode on manager only
     # 0.7.4 Use sleep(1) between reading lines
     # 0.7.5 Use next() in generator instead of for
-    # 0.7.6 Use yield from instead of iterating logs
+    # 0.7.6 Use yield from instead of iterating logs. 0.7.6.1
 
     # Reminder to change data-provider port on each environment
 
@@ -93,7 +93,7 @@ version: "3.3"
 services:
 
   whalefisher-manager:
-    image: registry.dream:5001/whalefisher-manager:0.7.6
+    image: registry.dream:5001/whalefisher-manager:0.7.6.1
     deploy:
       replicas: 1
     environment:
@@ -105,7 +105,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   whalefisher-data_provider:
-    image: registry.dream:5001/whalefisher-data_provider:0.7.6
+    image: registry.dream:5001/whalefisher-data_provider:0.7.6.1
     deploy:
       mode: global
       endpoint_mode: dnsrr
