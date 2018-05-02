@@ -84,7 +84,7 @@ version: "3.3"
     # 0.7.3 Encode on manager only
     # 0.7.4 Use sleep(1) between reading lines
     # 0.7.5 Use next() in generator instead of for
-    # 0.7.6 Use yield from instead of iterating logs. 0.7.6.1
+    # 0.7.6 Use yield from instead of iterating logs. 0.7.6.1, 0.7.6.2
 
     # Reminder to change data-provider port on each environment
 
