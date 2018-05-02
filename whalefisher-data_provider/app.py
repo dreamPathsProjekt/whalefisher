@@ -110,10 +110,12 @@ def get_logs_stream(id):
 
     # @stream_with_context
     def generate_stream():
-
-        for log in container.logs(timestamps=True, stream=True, follow=True, stdout=True, stderr=True):
-            yield str(log, 'utf-8').strip() + '\n'
-            container.reload()
+        try:
+            for log in container.logs(timestamps=True, stream=True):
+                yield str(log, 'utf-8').strip() + '\n'
+                container.reload()
+        except docker.errors.APIError:
+            yield 'Error from Docker Api\n'
 
     return Response(generate_stream(),  mimetype='text/plain')
 
@@ -124,10 +126,12 @@ def get_logs_stream_tail(id, lines):
 
     # @stream_with_context
     def generate_stream():
-
-        for log in container.logs(timestamps=True, stream=True, follow=True, stdout=True, stderr=True, tail=lines):
-            yield str(log, 'utf-8').strip() + '\n'
-            container.reload()
+        try:
+            for log in container.logs(timestamps=True, stream=True, tail=lines):
+                yield str(log, 'utf-8').strip() + '\n'
+                container.reload()
+        except docker.errors.APIError:
+            yield 'Error from Docker Api\n'
 
     return Response(generate_stream(),  mimetype='text/plain')
 

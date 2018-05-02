@@ -147,6 +147,10 @@ def get_logs_by_task_id_stream(name, id):
 def get_logs_by_task_id_stream_tail(name, id, lines):
     cont_json = get_container_by_task_id(name, id)
 
+    chunk = 1024
+    if lines < 20:
+        chunk = 32
+
     if cont_json is None:
         abort(404)
 
@@ -158,7 +162,7 @@ def get_logs_by_task_id_stream_tail(name, id, lines):
         stream=True)
 
     def generate_from_provider():
-        for line in request_stream.iter_lines(chunk_size=1024, decode_unicode=True):
+        for line in request_stream.iter_lines(chunk_size=chunk, decode_unicode=True):
             yield str(line).strip() + '\n'
 
     return Response(generate_from_provider(), mimetype='text/plain')
