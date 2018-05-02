@@ -94,6 +94,7 @@ version: "3.3"
     # 0.7.13 Add service logs route, 0.7.13.1
     # 0.7.14 Return direct generators on streaming Responses -> Success
     # 0.7.14.1 Include route tail on service logs, 0.7.14.2 chunk_size=1 on manager routes
+    # 0.7.15 Clean up working version 0.7.14.2
 
     # Reminder to change data-provider port on each environment
 
@@ -102,7 +103,7 @@ version: "3.3"
 services:
 
   whalefisher-manager:
-    image: registry.dream:5001/whalefisher-manager:0.7.14.2
+    image: registry.dream:5001/whalefisher-manager:0.7.15
     deploy:
       replicas: 1
     environment:
@@ -114,7 +115,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   whalefisher-data_provider:
-    image: registry.dream:5001/whalefisher-data_provider:0.7.14.2
+    image: registry.dream:5001/whalefisher-data_provider:0.7.15
     deploy:
       mode: global
       endpoint_mode: dnsrr
