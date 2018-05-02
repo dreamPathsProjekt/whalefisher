@@ -130,15 +130,15 @@ def get_logs_by_task_id_stream(name, id):
     if cont_json is None:
         abort(404)
 
-    request_stream = requests.get('http://{}:{}/container/{}/logs/stream'.format(
-        cont_json['node_ip'],
-        cont_json['node_port'],
-        cont_json['container_id']),
-        stream=True)
+    with requests.get('http://{}:{}/container/{}/logs/stream'.format(
+         cont_json['node_ip'],
+         cont_json['node_port'],
+         cont_json['container_id']),
+         stream=True) as request_stream:
 
-    def generate_from_provider():
-        for line in request_stream.iter_lines(chunk_size=1024, decode_unicode=True):
-            yield str(line).strip() + '\n'
+        def generate_from_provider():
+            for line in request_stream.iter_lines(chunk_size=1024, decode_unicode=True):
+                yield str(line).strip() + '\n'
 
     return Response(generate_from_provider(), mimetype='text/plain')
 
@@ -148,22 +148,22 @@ def get_logs_by_task_id_stream_tail(name, id, lines):
     cont_json = get_container_by_task_id(name, id)
 
     chunk = 1024
-    if lines < 20:
-        chunk = 32
+    if lines < 10:
+        chunk = 2048
 
     if cont_json is None:
         abort(404)
 
-    request_stream = requests.get('http://{}:{}/container/{}/logs/tail/{}'.format(
-        cont_json['node_ip'],
-        cont_json['node_port'],
-        cont_json['container_id'],
-        lines),
-        stream=True)
+    with requests.get('http://{}:{}/container/{}/logs/tail/{}'.format(
+         cont_json['node_ip'],
+         cont_json['node_port'],
+         cont_json['container_id'],
+         lines),
+         stream=True) as request_stream:
 
-    def generate_from_provider():
-        for line in request_stream.iter_lines(chunk_size=chunk, decode_unicode=True):
-            yield str(line).strip() + '\n'
+        def generate_from_provider():
+            for line in request_stream.iter_lines(chunk_size=chunk, decode_unicode=True):
+                yield str(line).strip() + '\n'
 
     return Response(generate_from_provider(), mimetype='text/plain')
 

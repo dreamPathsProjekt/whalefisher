@@ -76,7 +76,7 @@ def container_by_id(id):
 def get_logs(id):
     container = get_container_by_id(id)
 
-    logs = str(container.logs(timestamps=True, stream=False, stdout=True, stderr=True), encoding='utf-8').split('\n')
+    logs = str(container.logs(timestamps=True, stream=False), encoding='utf-8').split('\n')
 
     # def generate_stream(logs):
     #     for log in logs:
@@ -99,7 +99,7 @@ def get_logs(id):
 @app.route('/container/<string:id>/logs/compact')
 def get_logs_compact(id):
     container = get_container_by_id(id)
-    logs = str(container.logs(timestamps=True, stream=False, stdout=True, stderr=True), encoding='utf-8').split('\n')
+    logs = str(container.logs(timestamps=True, stream=False), encoding='utf-8').split('\n')
 
     return jsonify(logs)
 
@@ -111,7 +111,7 @@ def get_logs_stream(id):
     # @stream_with_context
     def generate_stream():
         try:
-            for log in container.logs(timestamps=True, stream=True):
+            for log in container.logs(timestamps=True, stream=True, follow=True):
                 yield str(log, 'utf-8').strip() + '\n'
                 container.reload()
         except docker.errors.APIError:
@@ -127,7 +127,7 @@ def get_logs_stream_tail(id, lines):
     # @stream_with_context
     def generate_stream():
         try:
-            for log in container.logs(timestamps=True, stream=True, tail=lines):
+            for log in container.logs(timestamps=True, stream=True, tail=lines, follow=True):
                 yield str(log, 'utf-8').strip() + '\n'
                 container.reload()
         except docker.errors.APIError:
