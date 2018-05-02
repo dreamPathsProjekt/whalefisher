@@ -38,7 +38,7 @@ def list_routes():
             'route': str(route)
         })
 
-    return document.Document(data={'routes': result, 'total': len(result)},
+    return Document(data={'routes': result, 'total': len(result)},
         links=Collection(Link(rel='self', href=url_for('list_routes'))))
 
 
@@ -60,7 +60,7 @@ def test_error_handler():
 
 @app.route('/service')
 def get_services_route():
-    return document.Document(
+    return Document(
         data={
         "services": get_service_json()
         },
@@ -76,7 +76,7 @@ def get_services_by_service_name(name):
     if len(services) == 0:
         abort(404)
 
-    return document.Document(data={
+    return Document(data={
         "services": services
     })
 
