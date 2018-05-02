@@ -171,7 +171,7 @@ def get_logs_by_task_id_stream_tail(name, id, lines):
 def get_service_logs(name):
 
     client = docker.APIClient(base_url='unix://var/run/docker.sock')
-    service_logs = str(client.service_logs(name, details=True, timestamps=True), encoding='utf-8').split('\n')
+    service_logs = str(client.service_logs(name, details=True, timestamps=True, stdout=True, stderr=True), encoding='utf-8').split('\n')
 
     return jsonify(service_logs)
 
