@@ -8,6 +8,8 @@ from docker import client
 import json
 import time
 
+from flask_hal import HAL, document
+
 # from flask_socketio import SocketIO
 # import eventlet
 import requests
@@ -19,7 +21,7 @@ from docker_provider import *
 app = Flask(__name__)
 # Redirect with or without slashes
 app.url_map.strict_slashes = False
-
+HAL(app)
 # socketio = SocketIO(app, async_mode='eventlet')
 
 
@@ -33,7 +35,7 @@ def list_routes():
             'route': str(route)
         })
 
-    return jsonify({'routes': result, 'total': len(result)})
+    return document.Document(data={'routes': result, 'total': len(result)})
 
 
 @app.errorhandler(404)
@@ -54,7 +56,7 @@ def test_error_handler():
 
 @app.route('/service')
 def get_services_route():
-    return jsonify(get_service_json())
+    return document.Document(data=get_service_json())
 
 
 @app.route('/service/<string:name>')
