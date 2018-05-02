@@ -56,7 +56,9 @@ def test_error_handler():
 
 @app.route('/service')
 def get_services_route():
-    return document.Document(data=get_service_json())
+    return document.Document(data={
+        "services": get_service_json()
+    })
 
 
 @app.route('/service/<string:name>')
@@ -67,7 +69,9 @@ def get_services_by_service_name(name):
     if len(services) == 0:
         abort(404)
 
-    return jsonify(services)
+    return document.Document(data={
+        "services": services
+    })
 
 
 # Requires exact name
