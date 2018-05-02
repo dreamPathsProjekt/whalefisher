@@ -167,23 +167,31 @@ def get_logs_by_task_id_stream_tail(name, id, lines):
     return Response(generate_from_provider(), mimetype='text/plain')
 
 
-@app.route('/service/<string:name>/tasks/<string:id>/logs/stream/compact')
-def stream_logs_from_compact(name, id):
-    cont_json = get_container_by_task_id(name, id)
+@app.route('/service/<string:name>')
+def get_service_logs(name):
 
-    if cont_json is None:
-        abort(404)
+    client = docker.APIClient(base_url='unix://var/run/docker.sock')
+    service_logs = str(client.service_logs(name, details=True, timestamps=True), encoding='utf-8').split('\n')
 
-    def stream_compact():
-        while True:
-            request_json = requests.get('http://{}:{}/container/{}/logs/compact'.format(
-                cont_json['node_ip'],
-                cont_json['node_port'],
-                cont_json['container_id']))
-            yield json.dumps(request_json.json())
-            time.sleep(1)
+    return jsonify(service_logs)
 
-    return Response(stream_compact(), mimetype='application/json')
+# @app.route('/service/<string:name>/tasks/<string:id>/logs/stream/compact')
+# def stream_logs_from_compact(name, id):
+#     cont_json = get_container_by_task_id(name, id)
+
+#     if cont_json is None:
+#         abort(404)
+
+#     def stream_compact():
+#         while True:
+#             request_json = requests.get('http://{}:{}/container/{}/logs/compact'.format(
+#                 cont_json['node_ip'],
+#                 cont_json['node_port'],
+#                 cont_json['container_id']))
+#             yield json.dumps(request_json.json())
+#             time.sleep(1)
+
+#     return Response(stream_compact(), mimetype='application/json')
 
 
 @app.route('/node')

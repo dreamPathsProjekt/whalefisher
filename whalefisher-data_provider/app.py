@@ -125,6 +125,7 @@ def get_logs_stream(id):
     def generate_stream():
         logs = client.logs(id, timestamps=True, stream=True, follow=True)
         for log in logs:
+            # printed logs are also missed
             print(log)
             yield log
 
@@ -151,6 +152,7 @@ def get_logs_stream_tail(id, lines):
     def generate_tail():
         logs = client.logs(id, timestamps=True, stream=True, follow=True, tail=lines)
         for log in logs:
+            # printed logs are also missed
             print(log)
             yield log
 
