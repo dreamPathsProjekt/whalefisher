@@ -91,7 +91,7 @@ def get_logs(id):
         lines.append(log_json)
         key += 1
 
-    container.reload()
+    # container.reload()
 
     return jsonify(lines)
 
@@ -113,7 +113,7 @@ def get_logs_stream(id):
         try:
             for log in container.logs(timestamps=True, stream=True, follow=True):
                 yield str(log, 'utf-8').strip() + '\n'
-                container.reload()
+                # container.reload()
         except docker.errors.APIError:
             yield 'Error from Docker Api\n'
 
@@ -129,7 +129,7 @@ def get_logs_stream_tail(id, lines):
         try:
             for log in container.logs(timestamps=True, stream=True, tail=lines, follow=True):
                 yield str(log, 'utf-8').strip() + '\n'
-                container.reload()
+                # container.reload()
         except docker.errors.APIError:
             yield 'Error from Docker Api\n'
 
