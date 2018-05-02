@@ -11,6 +11,7 @@ import eventlet
 
 from docker import client
 import json
+import time
 
 from docker_provider import *
 
@@ -114,11 +115,12 @@ def get_logs_stream(id):
             for log in container.logs(timestamps=True, stream=True, follow=True):
                 # yield str(log, 'utf-8').strip() + '\n'
                 yield log
+                time.sleep(1)
                 # container.reload()
         except docker.errors.APIError:
             yield 'Error from Docker Api\n'
 
-    return Response(generate_stream(),  mimetype='text/plain')
+    return app.response_class(generate_stream(),  mimetype='text/plain')
 
 
 @app.route('/container/<string:id>/logs/tail/<int:lines>')
@@ -126,16 +128,17 @@ def get_logs_stream_tail(id, lines):
     container = get_container_by_id(id)
 
     # @stream_with_context
-    def generate_stream():
+    def generate_tail():
         try:
             for log in container.logs(timestamps=True, stream=True, tail=lines, follow=True):
                 # yield str(log, 'utf-8').strip() + '\n'
                 yield log
+                time.sleep(1)
                 # container.reload()
         except docker.errors.APIError:
             yield 'Error from Docker Api\n'
 
-    return Response(generate_stream(),  mimetype='text/plain')
+    return app.response_class(generate_tail(),  mimetype='text/plain')
 
 
 if __name__ == "__main__":
