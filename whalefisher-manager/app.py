@@ -9,7 +9,9 @@ from docker import client
 import json
 import time
 
-from flask_hal import HAL, document, link
+from flask_hal import HAL
+from flask_hal.document import Document
+from flask_hal.link import Collection, Link
 
 # from flask_socketio import SocketIO
 # import eventlet
@@ -36,7 +38,8 @@ def list_routes():
             'route': str(route)
         })
 
-    return document.Document(data={'routes': result, 'total': len(result)})
+    return document.Document(data={'routes': result, 'total': len(result)},
+        links=Collection(Link(rel='self', href=url_for('list_routes'))))
 
 
 @app.errorhandler(404)
@@ -61,9 +64,7 @@ def get_services_route():
         data={
         "services": get_service_json()
         },
-        links={
-        '_links': link.Link(rel='self', href=url_for('get_services_route'))
-        }
+        links=Collection(Link(rel='self', href=url_for('get_services_route'))
     )
 
 
