@@ -73,6 +73,7 @@ version: "3.3"
     # 0.6.1 Fix manager threaded=True
     # 0.6.2 Set mimetype plain, content type event-stream, debug False
     # 0.6.3 Attempt stream json from compact route
+    # 0.6.4 Use socketio eventlet server
 
     # Reminder to change data-provider port on each environment
 
@@ -81,7 +82,7 @@ version: "3.3"
 services:
 
   whalefisher-manager:
-    image: registry.dream:5001/whalefisher-manager:0.6.3.1
+    image: registry.dream:5001/whalefisher-manager:0.6.4
     deploy:
       replicas: 1
     environment:
@@ -93,7 +94,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   whalefisher-data_provider:
-    image: registry.dream:5001/whalefisher-data_provider:0.6.3.1
+    image: registry.dream:5001/whalefisher-data_provider:0.6.4
     deploy:
       mode: global
       endpoint_mode: dnsrr

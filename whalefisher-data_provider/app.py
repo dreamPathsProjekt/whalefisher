@@ -6,8 +6,8 @@ from flask import abort
 from flask import stream_with_context
 
 
-# from flask_socketio import SocketIO
-# import eventlet
+from flask_socketio import SocketIO
+import eventlet
 
 from docker import client
 import json
@@ -20,12 +20,12 @@ from docker_provider import *
 # In production mode the eventlet web server is used if available, else the gevent web server is used.
 # If eventlet and gevent are not installed, the Werkzeug development web server is used.
 
-# eventlet.monkey_patch()
+eventlet.monkey_patch()
 app = Flask(__name__)
 # Redirect with or without slashes
 app.url_map.strict_slashes = False
 
-# socketio = SocketIO(app, async_mode='eventlet')
+socketio = SocketIO(app, async_mode='eventlet')
 
 
 @app.route('/')
@@ -132,17 +132,6 @@ def get_logs_stream_tail(id, lines):
     return Response(generate_stream(),  mimetype='text/plain', content_type='text/event-stream')
 
 
-@app.route('/streamout')
-def test_streaming_output():
-
-    def generate():
-        line = 0
-        while True:
-            yield 'Stream Line: {}'.format(line)
-            line += 1
-
-    return Response(generate(), mimetype='text/plain')
-
 if __name__ == "__main__":
-    app.run(debug=False, host='0.0.0.0', port=5000, use_evalex=False, threaded=True)
-    # socketio.run(app,  host='0.0.0.0', port=5000, debug=False)
+    # app.run(debug=False, host='0.0.0.0', port=5000, use_evalex=False, threaded=True)
+    socketio.run(app,  host='0.0.0.0', port=5000, debug=False)

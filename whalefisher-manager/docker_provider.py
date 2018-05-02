@@ -5,6 +5,7 @@ import requests
 # Change this according to data-provider published port
 PROVIDER_PORT = os.environ['DATA_PROVIDER_PORT']
 
+
 def provide_client(fn):
 
     def wrapper(*args, **kwargs):
