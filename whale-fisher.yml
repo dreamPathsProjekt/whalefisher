@@ -78,7 +78,8 @@ version: "3.3"
     # 0.6.6 Resize chunk size to 2048 for tail < 20, use resource context on requests.get(stream)
     # 0.6.7 Reset to no resource context
     # 0.7.0 Docker Py version to 3.3.0
-    # 0.7.1 Removed container.reload() on streaming logs
+    # 0.7.1 Removed container.reload() on streaming logs:
+      # Bug:  stream=True from container.logs() does not instantly include the last few lines, that is why /tail hangs
 
     # Reminder to change data-provider port on each environment
 
