@@ -171,9 +171,15 @@ def get_logs_by_task_id_stream_tail(name, id, lines):
 def get_service_logs(name):
 
     client = docker.APIClient(base_url='unix://var/run/docker.sock')
-    service_logs = str(client.service_logs(name, details=True, timestamps=True, stdout=True, stderr=True), encoding='utf-8').split('\n')
 
-    return jsonify(service_logs)
+    return Response(
+        client.service_logs(
+            name, details=True,
+            timestamps=True,
+            stdout=True,
+            stderr=True,
+            follow=True
+        ), mimetype='text/plain')
 
 # @app.route('/service/<string:name>/tasks/<string:id>/logs/stream/compact')
 # def stream_logs_from_compact(name, id):

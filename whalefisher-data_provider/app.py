@@ -107,7 +107,7 @@ def get_logs_compact(id):
 
 @app.route('/container/<string:id>/logs/stream')
 def get_logs_stream(id):
-    # container = get_container_by_id(id)
+    container = get_container_by_id(id)
 
     # @stream_with_context
     # def generate_stream():
@@ -120,21 +120,21 @@ def get_logs_stream(id):
         # except docker.errors.APIError:
         #     yield 'Error from Docker Api\n'
 
-    client = docker.APIClient(base_url='unix://var/run/docker.sock')
+    # client = docker.APIClient(base_url='unix://var/run/docker.sock')
 
-    def generate_stream():
-        logs = client.logs(id, timestamps=True, stream=True, follow=True)
-        for log in logs:
-            # printed logs are also missed
-            print(log)
-            yield log
+    # def generate_stream():
+    #     logs = client.logs(id, timestamps=True, stream=True, follow=True)
+    #     for log in logs:
+    #         # printed logs are also missed
+    #         print(log)
+    #         yield log
 
-    return Response(generate_stream(), mimetype='text/plain')
+    return Response(container.logs(timestamps=True, stream=True, follow=True), mimetype='text/plain')
 
 
 @app.route('/container/<string:id>/logs/tail/<int:lines>')
 def get_logs_stream_tail(id, lines):
-    # container = get_container_by_id(id)
+    container = get_container_by_id(id)
 
     # @stream_with_context
     # def generate_tail():
@@ -147,16 +147,16 @@ def get_logs_stream_tail(id, lines):
         # except docker.errors.APIError:
         #     yield 'Error from Docker Api\n'
 
-    client = docker.APIClient(base_url='unix://var/run/docker.sock')
+    # client = docker.APIClient(base_url='unix://var/run/docker.sock')
 
-    def generate_tail():
-        logs = client.logs(id, timestamps=True, stream=True, follow=True, tail=lines)
-        for log in logs:
-            # printed logs are also missed
-            print(log)
-            yield log
+    # def generate_tail():
+    #     logs = client.logs(id, timestamps=True, stream=True, follow=True, tail=lines)
+    #     for log in logs:
+    #         # printed logs are also missed
+    #         print(log)
+    #         yield log
 
-    return Response(generate_tail(), mimetype='text/plain')
+    return Response(container.logs(timestamps=True, stream=True, follow=True, tail=lines), mimetype='text/plain')
 
 
 if __name__ == "__main__":
