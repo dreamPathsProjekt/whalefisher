@@ -114,10 +114,10 @@ services:
     deploy:
       replicas: 1
     environment:
-      - DOCKER_NODE: "{{.Node.Hostname}}"
-      - DATA_PROVIDER_PORT: 8080
-      - PUBLISH_PORT: 80
-      - EXT_DOMAIN_NAME: "http://35.189.200.49"
+      DOCKER_NODE: "{{.Node.Hostname}}"
+      DATA_PROVIDER_PORT: 8080
+      PUBLISH_PORT: 80
+      EXT_DOMAIN_NAME: "http://35.189.200.49"
       # Above only works for gcloud compute instances, use own ip or domain name to generate uris
     ports:
       - "80:5000"
