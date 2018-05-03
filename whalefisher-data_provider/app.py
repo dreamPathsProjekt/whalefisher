@@ -87,7 +87,8 @@ def get_logs(id):
     for log in logs:
         log_json = {
             "Name": container.name,
-            "Line {}".format(key): log
+            "Line {}".format(key): log,
+            "Timestamp": log.split('Z')[0]
         }
         lines.append(log_json)
         key += 1
