@@ -108,14 +108,14 @@ version: "3.3"
 services:
 
   whalefisher-manager:
-    image: registry.dream:5001/whalefisher-manager:0.8.2.2
+    image: registry.dream:5001/whalefisher-manager:0.8.2.3
     deploy:
       replicas: 1
     environment:
-      - DOCKER_NODE={{.Node.Hostname}}
-      - DATA_PROVIDER_PORT=8080
-      - PUBLISH_PORT=80
-      - "EXT_DOMAIN_NAME=$$(curl -H 'Metadata-Flavor: Google' http://metadata/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip)"
+      - DOCKER_NODE: "{{.Node.Hostname}}"
+      - DATA_PROVIDER_PORT: 8080
+      - PUBLISH_PORT: 80
+      - EXT_DOMAIN_NAME: ""
       # Above only works for gcloud compute instances, use own ip or domain name to generate uris
     ports:
       - "80:5000"
@@ -123,7 +123,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   whalefisher-data_provider:
-    image: registry.dream:5001/whalefisher-data_provider:0.8.2.2
+    image: registry.dream:5001/whalefisher-data_provider:0.8.2.3
     deploy:
       mode: global
       endpoint_mode: dnsrr

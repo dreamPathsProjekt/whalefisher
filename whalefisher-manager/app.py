@@ -28,7 +28,7 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 
 # socketio = SocketIO(app, async_mode='eventlet')
-URL_PREFIX = 'http://{}:{}'.format(os.environ['EXT_DOMAIN_NAME'], os.environ['PUBLISH_PORT'])
+URL_PREFIX = '{}:{}'.format(os.environ['EXT_DOMAIN_NAME'], os.environ['PUBLISH_PORT'])
 
 
 @app.route('/')
