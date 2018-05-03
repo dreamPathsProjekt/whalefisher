@@ -2,9 +2,13 @@ import docker
 import os
 import requests
 
+from flask_hal import HAL
+from flask_hal.document import Document, Embedded
+from flask_hal.link import Collection, Link, Self
 
 # Change this according to data-provider published port
 PROVIDER_PORT = os.environ['DATA_PROVIDER_PORT']
+URL_PREFIX = 'http://{}:{}'.format(os.environ['EXT_DOMAIN_NAME'], os.environ['PUBLISH_PORT'])
 
 
 def provide_client(fn):
@@ -59,7 +63,23 @@ def get_service_by_name(service_name):
 
 def get_service_json():
     services = get_services()
-    return [dict(id=service.id, name=service.name) for service in services]
+
+    return [
+        Document(
+            data={
+                'id': service.id,
+                'name': service.name
+            },
+            embedded={
+                'service': Embedded(
+                    links=Collection(
+                        Link(rel="self", href="{}/service/{}/".format(URL_PREFIX, service.name)),
+                        Link(rel="tasks", href="{}/service/{}/tasks/".format(URL_PREFIX, service.name))
+                    )
+                )
+            }
+        )
+        for service in services]
 
 
 def get_service_json_by_name(service_name):

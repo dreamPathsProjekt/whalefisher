@@ -52,9 +52,18 @@ def get_service_by_name(service_name):
     return None
 
 
-def get_service_json():
-    services = get_services()
-    return [dict(id=service.id, name=service.name) for service in services]
+# def get_service_json():
+#     services = get_services()
+
+#     for service in services:
+#         service_dict = dict(id=service.id,
+#                             name=service.name)
+
+#         service_doc = Document(
+#                 data=service_dict,
+#                 links=Collection(Link)
+#             )
+#     return [service_doc for service in services]
 
 
 def get_service_json_by_name(service_name):

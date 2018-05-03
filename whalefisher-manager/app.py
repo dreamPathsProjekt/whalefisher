@@ -10,10 +10,6 @@ import json
 import time
 import os
 
-from flask_hal import HAL
-from flask_hal.document import Document
-from flask_hal.link import Collection, Link, Self
-
 # from flask_socketio import SocketIO
 # import eventlet
 import requests
@@ -29,6 +25,7 @@ HAL(app)
 # socketio = SocketIO(app, async_mode='eventlet')
 URL_PREFIX = 'http://{}'.format(os.environ['EXT_DOMAIN_NAME'])
 
+
 @app.route('/')
 def list_routes():
     result = []
@@ -40,7 +37,7 @@ def list_routes():
         })
 
     return Document(data={'routes': result, 'total': len(result)},
-        links=Collection(Self(href=URL_PREFIX + url_for('list_routes'))))
+                    links=Collection(Self(href=URL_PREFIX + url_for('list_routes'))))
 
 
 @app.errorhandler(404)
@@ -61,12 +58,7 @@ def test_error_handler():
 
 @app.route('/service')
 def get_services_route():
-    return Document(
-        data={
-        "services": get_service_json()
-        },
-        links=Collection(Self(href=URL_PREFIX + url_for('get_services_route')))
-    )
+    return get_service_json()
 
 
 @app.route('/service/<string:name>')
