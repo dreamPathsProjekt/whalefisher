@@ -113,3 +113,6 @@ pip-selfcheck.json
 # environment files
 whale_builder_pre.sh
 whale-fisher_pre.yml
+
+# obsolete folder
+.obs_monolithic/
