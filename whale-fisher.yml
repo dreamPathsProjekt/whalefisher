@@ -107,8 +107,6 @@ version: "3.3"
 
     # Reminder to change data-provider port on each environment
 
-    # 0.3 or 0.4 Import pyld (setup.py) [Not needed] ,from pyld import jsonld, to implement HateOas
-
 services:
 
   whalefisher-manager:
@@ -119,7 +117,7 @@ services:
       - DOCKER_NODE: "{{.Node.Hostname}}"
       - DATA_PROVIDER_PORT: 8080
       - PUBLISH_PORT: 80
-      - EXT_DOMAIN_NAME: ""
+      - EXT_DOMAIN_NAME: "http://35.189.200.49"
       # Above only works for gcloud compute instances, use own ip or domain name to generate uris
     ports:
       - "80:5000"
