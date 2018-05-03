@@ -26,7 +26,7 @@ from docker_provider import *
 app = Flask(__name__)
 # Redirect with or without slashes
 app.url_map.strict_slashes = False
-HAL(app)
+
 # socketio = SocketIO(app, async_mode='eventlet')
 URL_PREFIX = 'http://{}:{}'.format(os.environ['EXT_DOMAIN_NAME'], os.environ['PUBLISH_PORT'])
 
@@ -70,7 +70,6 @@ def get_services_route():
         'self': URL_PREFIX + url_for('get_services_by_service_name', name=service['name']),
         'tasks': URL_PREFIX + url_for('get_tasks_by_service_name', name=service['name'])
     } for service in services])
-
 
 
 @app.route('/service/<string:name>')
