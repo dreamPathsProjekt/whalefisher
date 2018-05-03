@@ -58,7 +58,7 @@ def test_error_handler():
 
 @app.route('/service')
 def get_services_route():
-    return get_service_json()
+    return Document(data={'services': get_service_json()})
 
 
 @app.route('/service/<string:name>')
