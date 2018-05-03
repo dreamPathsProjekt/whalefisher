@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="whalefisher-manager",
-    version="0.8",
+    version="0.9",
     packages=find_packages(),
 
 
@@ -14,7 +14,6 @@ setup(
         "eventlet",
         "flask_socketio",
         "socketIO_client",
-        "flask_hal"
     ],
 
     # package_data={

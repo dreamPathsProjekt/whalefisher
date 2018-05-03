@@ -11,10 +11,6 @@ import time
 import os
 
 
-from flask_hal import HAL
-from flask_hal.document import Document, Embedded
-from flask_hal.link import Collection, Link, Self
-
 # from flask_socketio import SocketIO
 # import eventlet
 import requests
@@ -67,8 +63,13 @@ def get_services_route():
     return jsonify([{
         'id': service['id'],
         'name': service['name'],
-        'self': URL_PREFIX + url_for('get_services_by_service_name', name=service['name']),
-        'tasks': URL_PREFIX + url_for('get_tasks_by_service_name', name=service['name'])
+        '_links': {
+            'self': URL_PREFIX + url_for('get_services_by_service_name', name=service['name']),
+            'tasks': URL_PREFIX + url_for('get_tasks_by_service_name', name=service['name']),
+            'logs': {
+                'stream': URL_PREFIX + url_for('get_service_logs', name=service['name'])
+            }
+        }
     } for service in services])
 
 
@@ -80,9 +81,17 @@ def get_services_by_service_name(name):
     if len(services) == 0:
         abort(404)
 
-    return Document(data={
-        "services": services
-    })
+    return jsonify([{
+        'id': service['id'],
+        'name': service['name'],
+        '_links': {
+            '_self': URL_PREFIX + url_for('get_services_by_service_name', name=service['name']),
+            'tasks': URL_PREFIX + url_for('get_tasks_by_service_name', name=service['name']),
+            'logs': {
+                'stream': URL_PREFIX + url_for('get_service_logs', name=service['name'])
+            }
+        }
+    } for service in services])
 
 
 # Requires exact name
@@ -94,7 +103,25 @@ def get_tasks_by_service_name(name):
     if len(tasks) == 0:
         abort(404)
 
-    return jsonify(tasks)
+    return jsonify([{
+        'id': task['id'],
+        'node_id': task['node_id'],
+        'node_name': task['node_name'],
+        'service_id': task['service_id'],
+        'service_name': task['service_name'],
+        'desired_state': task['desired_state'],
+        'current_state': task['current_state'],
+        'slot': task['slot'],
+        '_links': {
+            '_self': URL_PREFIX + url_for('get_tasks_by_id', name=task['service_name'], id=task['id']),
+            'service': URL_PREFIX + url_for('get_services_by_service_name', name=task['service_name']),
+            'logs': {
+                'json': URL_PREFIX + url_for('get_logs_by_task_id', name=task['service_name'], id=task['id']),
+                'compact': URL_PREFIX + url_for('get_logs_by_task_id_compact', name=task['service_name'], id=task['id']),
+                'stream': URL_PREFIX + url_for('get_logs_by_task_id_stream', name=task['service_name'], id=task['id'])
+            }
+        }
+    } for task in tasks])
 
 
 @app.route('/service/<string:name>/tasks/<string:id>')
@@ -108,7 +135,27 @@ def get_tasks_by_id(name, id):
     if len(tasks) > 1:
         return jsonify({'message': 'Multiple Tasks Found'})
 
-    return jsonify(tasks[0])
+    return jsonify(
+        {
+            'id': tasks[0]['id'],
+            'node_id': tasks[0]['node_id'],
+            'node_name': tasks[0]['node_name'],
+            'service_id': tasks[0]['service_id'],
+            'service_name': tasks[0]['service_name'],
+            'desired_state': tasks[0]['desired_state'],
+            'current_state': tasks[0]['current_state'],
+            'slot': tasks[0]['slot'],
+            '_links': {
+                '_self': URL_PREFIX + url_for('get_tasks_by_id', name=tasks[0]['service_name'], id=tasks[0]['id']),
+                'service': URL_PREFIX + url_for('get_services_by_service_name', name=tasks[0]['service_name']),
+                'logs': {
+                    'json': URL_PREFIX + url_for('get_logs_by_task_id', name=tasks[0]['service_name'], id=tasks[0]['id']),
+                    'compact': URL_PREFIX + url_for('get_logs_by_task_id_compact', name=tasks[0]['service_name'], id=tasks[0]['id']),
+                    'stream': URL_PREFIX + url_for('get_logs_by_task_id_stream', name=tasks[0]['service_name'], id=tasks[0]['id'])
+                }
+            }
+        }
+    )
 
 
 @app.route('/service/<string:name>/tasks/<string:id>/logs')

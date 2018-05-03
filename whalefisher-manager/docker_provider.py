@@ -141,8 +141,6 @@ def get_container_by_task_id(service_name, task_id):
     return None
 
 
-
-
 @provide_client
 def get_nodes(client=None):
     return client.nodes.list()

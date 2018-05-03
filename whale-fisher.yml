@@ -101,6 +101,8 @@ version: "3.3"
     # 0.8.1 Update with Self and URL_PREFIX
     # 0.8.2 Attempt export Document from docker_provider, 0.8.2.2
 
+    # 0.9 Remove flask_hal, provide links for most routes
+
     # Reminder to change data-provider port on each environment
 
     # 0.3 or 0.4 Import pyld (setup.py) [Not needed] ,from pyld import jsonld, to implement HateOas
@@ -108,7 +110,7 @@ version: "3.3"
 services:
 
   whalefisher-manager:
-    image: registry.dream:5001/whalefisher-manager:0.8.2.3
+    image: registry.dream:5001/whalefisher-manager:0.9
     deploy:
       replicas: 1
     environment:
@@ -123,7 +125,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   whalefisher-data_provider:
-    image: registry.dream:5001/whalefisher-data_provider:0.8.2.3
+    image: registry.dream:5001/whalefisher-data_provider:0.9
     deploy:
       mode: global
       endpoint_mode: dnsrr
