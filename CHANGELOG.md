@@ -1,6 +1,18 @@
 # Changelog
 
+## 0.6.0
+
 ## 0.5.0
+
+- Added streaming requests (removed sockets), using `chunk size=1024`
+- Added route tasks_by_id for manager
+- Fixed Leader key not exists
+- Implemented return container id from task id & service name
+- Added routes for logs, /compact, /stream, /tail/:lines
+- Cleaned up docker_provider
+- Included data-provider port as environment variable `DATA_PROVIDER_PORT`
+- Added version=auto on docker client
+- Reverted to flask instead of eventlet-socketio as server
 
 ## 0.4.0
 
@@ -10,7 +22,7 @@
 
 ## 0.3.0-0.3.8
 
-- __Breaking:__ Split into data-provider and manager services
+- __Breaking Change:__ Split into data-provider and manager services
 - Added container/id/logs routes on data-provider
 - Added stream log route to data-provider
 - Added tail/lines route to data-provider
