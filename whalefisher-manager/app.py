@@ -55,10 +55,9 @@ def test_error_handler():
     return abort(404)
 
 
-# Commented for security reasons
-# @app.route('/client')
-# def get_client_info_route():
-#     return jsonify(get_client_info())
+@app.route('/bad_request')
+def test_bad_request():
+    return abort(400)
 
 
 @app.route('/service')
