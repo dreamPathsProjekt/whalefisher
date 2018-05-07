@@ -216,6 +216,9 @@ def get_logs_by_task_id_stream(name, id):
 @app.route('/service/<string:name>/tasks/<string:id>/logs/tail/<int:lines>')
 def get_logs_by_task_id_stream_tail(name, id, lines):
 
+    if lines < 5:
+        abort(400)
+
     cont_json = get_container_by_task_id(name, id)
 
     if cont_json is None:
@@ -254,6 +257,9 @@ def get_service_logs(name):
 
 @app.route('/service/<string:name>/logs/tail/<int:lines>')
 def get_service_logs_tail(name, lines):
+
+    if lines < 5:
+        abort(400)
 
     client = docker.APIClient(base_url='unix://var/run/docker.sock', version='auto')
 
