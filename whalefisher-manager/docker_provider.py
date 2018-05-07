@@ -10,7 +10,7 @@ PROVIDER_PORT = os.environ['DATA_PROVIDER_PORT']
 def provide_client(fn):
 
     def wrapper(*args, **kwargs):
-        docker_client = docker.client.from_env()
+        docker_client = docker.client.from_env(version='auto')
         result = fn(client=docker_client, *args, **kwargs)
         docker_client.close()
 

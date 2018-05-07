@@ -131,6 +131,32 @@ def get_logs_stream_tail(id, lines):
         mimetype='text/plain')
 
 
+@app.route('/container/<string:id>/logs/since/hours/<int:hours_since>', defaults={'hours_until': None})
+@app.route('/container/<string:id>/logs/since/hours/<int:hours_since>/until/hours/<int:hours_until>')
+def get_logs_since_until(id, hours_since, hours_until):
+    container = get_container_by_id(id)
+
+    return Response(
+        container.logs(
+            timestamps=True,
+            stream=True,
+            follow=True),
+        mimetype='text/plain')
+
+
+@app.route('/container/<string:id>/logs/since/datetime/<string:dt_since>', defaults={'dt_until': None})
+@app.route('/container/<string:id>/logs/since/datetime/<string:dt_since>/until/datetime/<string:dt_until>')
+def get_logs_since_until_datetime(id, dt_since, dt_until):
+    container = get_container_by_id(id)
+
+    return Response(
+        container.logs(
+            timestamps=True,
+            stream=True,
+            follow=True),
+        mimetype='text/plain')
+
+
 if __name__ == "__main__":
     app.run(debug=False, host='0.0.0.0', port=5000, use_evalex=False, threaded=True)
     # socketio.run(app,  host='0.0.0.0', port=5000, debug=False)

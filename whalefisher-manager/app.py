@@ -45,6 +45,11 @@ def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 
+@app.errorhandler(400)
+def bad_request(error):
+    return make_response(jsonify({'error': 'Bad Request'}), 400)
+
+
 @app.route('/error')
 def test_error_handler():
     return abort(404)
@@ -211,6 +216,10 @@ def get_logs_by_task_id_stream(name, id):
 
 @app.route('/service/<string:name>/tasks/<string:id>/logs/tail/<int:lines>')
 def get_logs_by_task_id_stream_tail(name, id, lines):
+
+    if not isinstance(lines, int):
+        abort(400)
+
     cont_json = get_container_by_task_id(name, id)
 
     if cont_json is None:
@@ -234,7 +243,7 @@ def get_logs_by_task_id_stream_tail(name, id, lines):
 @app.route('/service/<string:name>/logs/stream')
 def get_service_logs(name):
 
-    client = docker.APIClient(base_url='unix://var/run/docker.sock')
+    client = docker.APIClient(base_url='unix://var/run/docker.sock', version='auto')
 
     return Response(
         client.service_logs(
@@ -250,7 +259,10 @@ def get_service_logs(name):
 @app.route('/service/<string:name>/logs/tail/<int:lines>')
 def get_service_logs_tail(name, lines):
 
-    client = docker.APIClient(base_url='unix://var/run/docker.sock')
+    if not isinstance(lines, int):
+        abort(400)
+
+    client = docker.APIClient(base_url='unix://var/run/docker.sock', version='auto')
 
     return Response(
         client.service_logs(
