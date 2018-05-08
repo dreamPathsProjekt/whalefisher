@@ -105,6 +105,9 @@ ENV/
 # vscode
 .vscode/
 
+# pycharm
+.idea/
+
 # pip-selfcheck
 pip-selfcheck.json
 
