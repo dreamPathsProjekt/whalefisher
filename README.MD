@@ -29,8 +29,8 @@ A simple read-only Docker Swarm Logging Api, to export or stream logs to HTTP fr
 - `/`: List All Routes
 - `/service/`: List All Swarm Services
 - `/service/<string:name>`: Search Swarm Services
-- - Example: `http://35.189.200.49/service/whale` returns a list of json service obj where name contains string `whale`
-- - Output:
+  - Example: `http://35.189.200.49/service/whale` returns a list of json service obj where name contains string `whale`
+  - Output:
 
 ```JSON
 [
