@@ -144,8 +144,7 @@ A simple read-only Docker Swarm Logging Api, to export or stream logs to HTTP fr
     "2018-05-02T17:09:56.235069404Z \tat org.elasticsearch.action.support.TransportAction.execute(TransportAction.java:137)",
     "2018-05-02T17:09:56.235073838Z \tat org.elasticsearch.action.support.TransportAction.execute(TransportAction.java:85)",
     "2018-05-02T17:09:56.235076466Z \tat org.elasticsearch.client.node.NodeClient.doExecute(NodeClient.java:58)",
-    "2018-05-02T17:09:56.235078975Z \tat org.elasticsearch.client.support.AbstractClient.execute(AbstractClient.java:359)"
-    // ...
+    "2018-05-02T17:09:56.235078975Z \tat org.elasticsearch.client.support.AbstractClient.execute(AbstractClient.java:359)",
 ]
 ```
 
