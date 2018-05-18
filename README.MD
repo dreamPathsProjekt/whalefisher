@@ -62,7 +62,7 @@ A simple read-only Docker Swarm Logging Api, to export or stream logs to HTTP fr
 - `/service/<string:exact_name>/tasks`: If exact service name is used, `/tasks/` returns a list of docker swarm tasks running for that service. E.g. if a service with name `elastic_elasticsearch` has 3 running replicas, `/tasks` should return a list of those replicas. For convenience use the pseudo-HATEOAS link: `tasks` under `_links`
 
 - `/service/<string:exact_name>/tasks/<string:task_id>`: Returns the exact running task with the specified id. You can also use truncated ids, as in the below example:
-- - `http://35.189.200.49/service/elastic_elasticsearch/tasks/kad1` In the output you can see the full task id used for the request:
+  - `http://35.189.200.49/service/elastic_elasticsearch/tasks/kad1` In the output you can see the full task id used for the request:
 
 ```JSON
 {
@@ -95,7 +95,7 @@ A simple read-only Docker Swarm Logging Api, to export or stream logs to HTTP fr
 #### Container/Task Logs
 
 - `/service/<string:exact_name>/tasks/<string:task_id>/logs/` returns a list of __container__ log lines with timestamp and container names.
-- - Example request: `http://35.189.200.49/service/elastic_elasticsearch/tasks/kad1nusozo8089egzn4hwudud/logs`
+  - Example request: `http://35.189.200.49/service/elastic_elasticsearch/tasks/kad1nusozo8089egzn4hwudud/logs`
 
 ```JSON
 // ...
@@ -151,12 +151,12 @@ A simple read-only Docker Swarm Logging Api, to export or stream logs to HTTP fr
 - __Important:__ Very large log output, when requested as a single response, may grow substantially large (you can view network tab in developer tools as it loads). For those use-cases, it is best advised to use streaming endpoints as described below.
 
 - `/service/<string:exact_name>/tasks/<string:task_id>/logs/stream/` returns a __plain-text__ stream of logs from the creation of a container till now.
-- - CLI tools like curl also retain terminal-color settings from the initial logs.
+  - CLI tools like curl also retain terminal-color settings from the initial logs.
 
 - `/service/<string:exact_name>/tasks/<string:task_id>/logs/tail/<int:lines>` returns the tail of last `lines` log lines till now, with `lines` provided in the url. Additional realtime output is appended.
-- - Example request: `http://35.189.200.49/service/elastic_elasticsearch/tasks/kad1nusozo8089egzn4hwudud/logs/tail/10`
+  - Example request: `http://35.189.200.49/service/elastic_elasticsearch/tasks/kad1nusozo8089egzn4hwudud/logs/tail/10`
 
-- - Output:
+  - Output:
 
 ```Shell
 2018-05-18T00:44:12.972480658Z 	at org.jboss.netty.channel.socket.nio.NioWorker.read(NioWorker.java:88)
@@ -191,9 +191,9 @@ Service-Level logs can be only viewed as streamed Responses, due to limitations 
 }
 ```
 
-- - The above response may occur on wrong input, or during a Docker Service is restarting individual containers. At this situation __individual task ids are recreated__, so it is advised to refresh the `.../tasks/` endpoint and follow the new recreated ids.
+- The above response may occur on wrong input, or during a Docker Service is restarting individual containers. At this situation __individual task ids are recreated__, so it is advised to refresh the `.../tasks/` endpoint and follow the new recreated ids.
 
-- - It is not recommended to use values <= 5 on `/tail/lines` routes. As of newer versions of the API (0.9 and later), fewer than 5 lines return a `400 error - bad request`
+- It is not recommended to use values <= 5 on `/tail/lines` routes. As of newer versions of the API (0.9 and later), fewer than 5 lines return a `400 error - bad request`
 
 ```JSON
 {
@@ -208,8 +208,8 @@ It is generally not advisable to view logs using the low-level Api.
 If you, however, wish to view individual containers on each host via the data provider global service, you can use the data provider's host ip with it's exported port:
 
 - `/node/current`: Returns the hostname of the individual node you are sending requests to.
-- - Example Request: `http://35.189.200.49:8080/node/current`
-- - Output:
+  - Example Request: `http://35.189.200.49:8080/node/current`
+  - Output:
 
 ```JSON
 {
@@ -219,10 +219,10 @@ If you, however, wish to view individual containers on each host via the data pr
 
 - `/container/<string:id>`: Returns an individual container's info. Container ids can be also submitted truncated.
 - The Below URIs work according to the High-Level Api Template, as documented earlier:
-- - `/container/<string:id>/logs/`
-- - `/container/<string:id>/logs/compact/`
-- - `/container/<string:id>/logs/stream/`
-- - `/container/<string:id>/logs/tail/<int:lines>`
+  - `/container/<string:id>/logs/`
+  - `/container/<string:id>/logs/compact/`
+  - `/container/<string:id>/logs/stream/`
+  - `/container/<string:id>/logs/tail/<int:lines>`
 
 ## Future Additions - TODO
 
