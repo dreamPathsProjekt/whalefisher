@@ -21,7 +21,7 @@ A simple read-only Docker Swarm Logging Api, to export or stream logs to HTTP fr
 ### Client-Browser Guidelines
 
 - It is advised to use __Chrome, Firefox__ or __Edge__ with a __Json Formatter__ extension (e.g. Chrome Ext: `JSON Formatter`), for your own links-navigation convenience.
-- You can also use REST tools like __Postman__ for JSON Endpoints but live __streaming log routes do not work__.
+- You can also use REST clients like __Postman__ for JSON Endpoints but live __streaming log routes do not work__.
 - Cli tools like __curl__ also work with both JSON and Streaming Routes.
 
 ### Services
@@ -94,7 +94,7 @@ A simple read-only Docker Swarm Logging Api, to export or stream logs to HTTP fr
 
 #### Container/Task Logs
 
-- `/service/<string:exact_name>/tasks/<string:task_id>/logs/` returns a list of __container/service__ log lines with timestamp and container names.
+- `/service/<string:exact_name>/tasks/<string:task_id>/logs/` returns a list of __container__ log lines with timestamp and container names.
 - - Example request: `http://35.189.200.49/service/elastic_elasticsearch/tasks/kad1nusozo8089egzn4hwudud/logs`
 
 ```JSON
