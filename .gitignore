@@ -112,6 +112,8 @@ ENV/
 pip-selfcheck.json
 
 # test files
+whalefisher-manager/test.py
+whalefisher-data_provider/test.py
 
 # environment files
 whale_builder_pre.sh
