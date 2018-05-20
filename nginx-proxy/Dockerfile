@@ -18,4 +18,6 @@ COPY files/nginx.conf.tmpl /
 # c.f. http://nginx.org/en/docs/control.html
 STOPSIGNAL SIGQUIT
 
+RUN chmod a+x /run.sh
+
 ENTRYPOINT ["/run.sh"]
