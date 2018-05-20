@@ -8,6 +8,15 @@ A simple read-only Docker Swarm Logging Api, to export or stream logs to HTTP fr
 > nginx-proxy based on [https://github.com/dtan4/nginx-basic-auth-proxy](https://github.com/dtan4/nginx-basic-auth-proxy) with added __docker secrets__
 
 - [WhaleFisher](#whalefisher)
+    - [Showcase](#showcase)
+    - [Installation](#installation)
+        - [Pre-requisites](#pre-requisites)
+        - [Initial setup](#initial-setup)
+        - [Docker image builds](#docker-image-builds)
+        - [Configuration & Deployment](#configuration-deployment)
+            - [Deployment & Configuration notes](#deployment-configuration-notes)
+            - [Configuration & environment variables](#configuration-environment-variables)
+            - [Deploy the stack](#deploy-the-stack)
     - [API v0.9 Documentation](#api-v09-documentation)
         - [Client-Browser Guidelines](#client-browser-guidelines)
         - [Services](#services)
@@ -17,6 +26,192 @@ A simple read-only Docker Swarm Logging Api, to export or stream logs to HTTP fr
         - [General Notes](#general-notes)
         - [Low Level Container Api](#low-level-container-api)
     - [Future Additions - TODO](#future-additions---todo)
+
+## Showcase
+
+Docker Swarm Services list: [http://35.189.200.49/service](http://35.189.200.49/service)
+
+User: `demo`
+Password: `demo`
+
+## Installation
+
+### Pre-requisites
+
+- A Docker Swarm, setup on __Ubuntu 16.04__ Vms or later, with __docker-ce 17.12__ or later
+- A private or cloud registry where you can push and pull Docker images
+
+### Initial setup
+
+- Clone this repository:
+
+```Bash
+git clone https://github.com/dreamPathsProjekt/whalefisher
+cd <path-to>/whalefisher
+```
+
+- Make builder scripts executable:
+
+```Bash
+chmod u+x nginx_builder.sh
+chmod u+x whale_builder.sh
+```
+
+### Docker image builds
+
+The [nginx_builder](./nginx_builder.sh) and [whale_builder](./whale_builder.sh) scripts can be run with the following syntax:
+
+```Bash
+./whale_builder.sh <version>
+```
+
+You can tag whatever version you like, but you will have to provide the correct image versions (or `latest` tag) to the [whale-fisher.yml](./whale-fisher.yml) as well.
+
+- Edit the `DOCKER_REGISTRY` variable of both scripts to your own private registry.
+
+```Bash
+#!/bin/bash
+
+# Edit below line to your own private registry
+DOCKER_REGISTRY=
+```
+
+- Build the nginx-proxy image, you will be prompted to provide username & password to be stored as __Docker secrets__:
+
+```Bash
+./nginx_builder.sh 0.2
+```
+
+- Build the whalefisher data-provider and manager images:
+
+```Bash
+./whale_builder.sh 0.9.2.3
+```
+
+### Configuration & Deployment
+
+The deployment .yml for whalefisher stack is the following:
+
+```YAML
+version: "3.3"
+
+secrets:
+  whale_username:
+    external: true
+  whale_password:
+    external: true
+
+services:
+
+  nginx-proxy:
+    image: registry.dream:5001/nginx-proxy:0.2
+    deploy:
+      replicas: 1
+    secrets:
+      - source: whale_username
+        target: whale_username
+      - source: whale_password
+        target: whale_password
+    environment:
+      - PROXY_PASS=http://whalefisher-manager:5000
+      - SERVER_NAME=whalefisher.manager
+    ports:
+      - 80:80
+      - 8090:8090
+
+  whalefisher-manager:
+    image: registry.dream:5001/whalefisher-manager:0.9.2.3
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+    environment:
+      DOCKER_NODE: "{{.Node.Hostname}}"
+      DATA_PROVIDER_PORT: 8080
+      PUBLISH_PORT: 80
+      EXT_DOMAIN_NAME: "http://35.189.200.49"
+      # Above only works for gcloud compute instances, use own ip or domain name to generate uris
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  whalefisher-data_provider:
+    image: registry.dream:5001/whalefisher-data_provider:0.9.2.3
+    deploy:
+      mode: global
+      endpoint_mode: dnsrr
+    environment:
+      - DOCKER_NODE={{.Node.Hostname}}
+    ports:
+      - target: 5000
+        published: 8080
+        protocol: tcp
+        mode: host
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+```
+
+#### Deployment & Configuration notes
+
+- It is mandatory to mount volumes `/var/run/docker.sock` on both manager and data-provider services, for the docker client to connect.
+- The __data-povider__ service collects container logs from all nodes (managers and worker), and as such it has to be deployed globally, with published port in `host` mode. This network setup is necessary as the `manager` service has to discover worker nodes in the swarm by their `node ids` and `node internal ips`, to retrieve individual container logs. The above has been a known Docker Swarm Api limitation (or feature).
+- The __manager__ service has to be deployed on a manager node, as it performs service and node discovery. Those features are restricted on worker nodes.
+- The __nginx-proxy__ service proxies requests to the __manager__ service and provides authentication to all of the URIs. It uses Docker secrets `whale_username` and `whale_password` for the authentication and is set with `PROXY_PASS` environment value to point to the manager service by Docker `service dns name` and published `vip` port. Port `8090` is exposed to provide nginx statistics. It is also recommended to setup `SERVER_NAME` of `nginx-proxy` to your own domain name.
+
+#### Configuration & environment variables
+
+The following environment variables and configuration options have to be set up according to your environment:
+
+- Setup the published port of the `data_provider` service to whatever port is available in your nodes, but keep the target port at `5000`. In order for the `manager` service to discover the `data_provider` ports, you also have to set `DATA_PROVIDER_PORT` on the `whalefisher-manager` service, to the same value
+
+Example:
+
+```YAML
+  whalefisher-data_provider:
+    # ...
+    ports:
+      - target: 5000
+        published: 8080
+
+  whalefisher-manager:
+    # ...
+    environment:
+      # ...
+      DATA_PROVIDER_PORT: 8080
+      # ...
+```
+
+- The `manager` service constructs pseudo HATEOAS links to navigate the API. You need to pass your external facing domain or ip address and the port that `nginx-proxy` exposes to the `whalefisher-manager` environment variables:
+    - `EXT_DOMAIN_NAME`
+    - `PUBLISH_PORT`
+
+Example:
+
+```YAML
+services:
+
+  nginx-proxy:
+    ports:
+      - 80:80
+
+  #  ...
+
+  whalefisher-manager:
+  # ...
+    environment:
+      DOCKER_NODE: "{{.Node.Hostname}}"
+      DATA_PROVIDER_PORT: 8080
+      PUBLISH_PORT: 80
+      EXT_DOMAIN_NAME: "http://35.189.200.49"
+```
+
+#### Deploy the stack
+
+After all of the above configurations, you can deploy the stack with the following command:
+
+```Bash
+docker stack deploy -c whale-fisher.yml <stack_name>
+```
 
 ## API v0.9 Documentation
 
