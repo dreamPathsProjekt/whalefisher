@@ -118,7 +118,7 @@ secrets:
 services:
 
   nginx-proxy:
-    image: registry.dream:5001/nginx-proxy:0.1
+    image: registry.dream:5001/nginx-proxy:0.2
     deploy:
       replicas: 1
     secrets:
