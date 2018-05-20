@@ -154,7 +154,7 @@ services:
 #### Deployment & Configuration notes
 
 - It is mandatory to mount volumes `/var/run/docker.sock` on both manager and data-provider services, for the docker client to connect.
-- The __data-povider__ service collects container logs from all nodes (managers and worker), and as such it has to be deployed globally, with published port in `host` mode. This network setup is necessary as the `manager` service has to discover worker nodes in the swarm by their `node ids` and `node internal ips`, to retrieve individual container logs. The above has been a known Docker Swarm Api limitation (or feature).
+- The __data-povider__ service collects container logs from all nodes (managers and workers), and as such it has to be deployed globally, with published port in `host` mode. This network setup is necessary as the `manager` service has to discover worker nodes in the swarm by their `node ids` and `node internal ips`, to retrieve individual container logs. The above has been a known Docker Swarm Api limitation (or feature).
 - The __manager__ service has to be deployed on a manager node, as it performs service and node discovery. Those features are restricted on worker nodes.
 - The __nginx-proxy__ service proxies requests to the __manager__ service and provides authentication to all of the URIs. It uses Docker secrets `whale_username` and `whale_password` for the authentication and is set with `PROXY_PASS` environment value to point to the manager service by Docker `service dns name` and published `vip` port. Port `8090` is exposed to provide nginx statistics. It is also recommended to setup `SERVER_NAME` of `nginx-proxy` to your own domain name.
 
@@ -423,5 +423,5 @@ If you, however, wish to view individual containers on each host via the data pr
 
 ## Future Additions - TODO
 
-- Include Authorization
+- Include Token Authorization (JWT)
 - Implement `since` & `until` routes to find logs within a given timeframe.
