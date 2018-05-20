@@ -18,10 +18,13 @@ then
     echo "$WHALE_PASSWORD" | docker secret create whale_password -
 fi
 
+read -rp 'Build image & push? y to proceed: ' BUILD_PROMPT
 
-
-docker build -t nginx-proxy ./nginx-proxy/ && \
-docker tag nginx-proxy  $DOCKER_REGISTRY/nginx-proxy:"$1" && \
-docker tag nginx-proxy  $DOCKER_REGISTRY/nginx-proxy:latest && \
-docker push $DOCKER_REGISTRY/nginx-proxy:"$1" && \
-docker push $DOCKER_REGISTRY/nginx-proxy:latest
+if [ "$BUILD_PROMPT" == "y" ]
+then
+    docker build -t nginx-proxy ./nginx-proxy/ && \
+    docker tag nginx-proxy  $DOCKER_REGISTRY/nginx-proxy:"$1" && \
+    docker tag nginx-proxy  $DOCKER_REGISTRY/nginx-proxy:latest && \
+    docker push $DOCKER_REGISTRY/nginx-proxy:"$1" && \
+    docker push $DOCKER_REGISTRY/nginx-proxy:latest
+fi
