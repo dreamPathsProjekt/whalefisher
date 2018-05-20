@@ -5,6 +5,8 @@
 
 A simple read-only Docker Swarm Logging Api, to export or stream logs to HTTP from containers across different nodes inside a Swarm.
 
+> nginx-proxy based on [https://github.com/dtan4/nginx-basic-auth-proxy](https://github.com/dtan4/nginx-basic-auth-proxy) with added __docker secrets__
+
 - [WhaleFisher](#whalefisher)
     - [API v0.9 Documentation](#api-v09-documentation)
         - [Client-Browser Guidelines](#client-browser-guidelines)
