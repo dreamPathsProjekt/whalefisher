@@ -3,11 +3,8 @@
 # Edit below line to your own private registry
 DOCKER_REGISTRY=registry.dream:5001
 
-echo "Please type username: "
-read -rp WHALE_USERNAME
-
-echo "Please type your password: "
-read -srp WHALE_PASSWORD
+read -rp 'Please type username: ' WHALE_USERNAME
+read -srp 'Please type your password: ' WHALE_PASSWORD
 
 echo "$WHALE_USERNAME" | docker secret create whale_username -
 echo "$WHALE_PASSWORD" | docker secret create whale_password -
