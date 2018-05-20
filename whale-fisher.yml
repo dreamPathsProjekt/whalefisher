@@ -137,8 +137,9 @@ services:
     image: registry.dream:5001/whalefisher-manager:0.9.2.3
     deploy:
       replicas: 1
-      constraints:
-        - node.role == manager
+      placement:
+        constraints:
+          - node.role == manager
     environment:
       DOCKER_NODE: "{{.Node.Hostname}}"
       DATA_PROVIDER_PORT: 8080
