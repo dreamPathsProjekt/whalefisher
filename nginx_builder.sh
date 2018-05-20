@@ -3,11 +3,22 @@
 # Edit below line to your own private registry
 DOCKER_REGISTRY=registry.dream:5001
 
-read -rp 'Please type username: ' WHALE_USERNAME
-read -srp 'Please type your password: ' WHALE_PASSWORD
+SECRET_USERNAME="$(docker secret ls | grep  "whale_username" | awk '{ print $2 }')"
+SECRET_PASSWORD="$(docker secret ls | grep  "whale_password" | awk '{ print $2 }')"
 
-echo "$WHALE_USERNAME" | docker secret create whale_username -
-echo "$WHALE_PASSWORD" | docker secret create whale_password -
+if [ ! "$SECRET_USERNAME" != "whale_username" ]
+then
+    read -rp 'Please type username: ' WHALE_USERNAME
+    echo "$WHALE_USERNAME" | docker secret create whale_username -
+fi
+
+if [ ! "$SECRET_PASSWORD" != "whale_password" ]
+then
+    read -srp 'Please type your password: ' WHALE_PASSWORD
+    echo "$WHALE_PASSWORD" | docker secret create whale_password -
+fi
+
+
 
 docker build -t nginx-proxy ./nginx-proxy/ && \
 docker tag nginx-proxy  $DOCKER_REGISTRY/nginx-proxy:"$1" && \

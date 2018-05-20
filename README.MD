@@ -76,7 +76,7 @@ You can tag whatever version you like, but you will have to provide the correct 
 DOCKER_REGISTRY=
 ```
 
-- Build the nginx-proxy image, you will be prompted to provide username & password to be stored as __Docker secrets__:
+- Build the nginx-proxy image. You will be prompted to provide username & password to be stored as __Docker secrets__, on the first run:
 
 ```Bash
 ./nginx_builder.sh 0.2
