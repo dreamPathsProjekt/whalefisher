@@ -4,6 +4,7 @@ stages:
   - build-manager
   - build-data_provider
   - build-proxy
+  - deploy-stack
 
 services:
   - docker:dind
@@ -23,7 +24,6 @@ build-manager:
   stage: build-manager
   tags:
     - docker
-    - shared
   script:
     - docker build -t "whalefisher-manager":"$VERSION" ./whalefisher-manager/
     - docker tag "whalefisher-manager":"$VERSION" "$CI_REGISTRY_IMAGE_MANAGER":"$VERSION"
@@ -38,7 +38,6 @@ build-data_provider:
   stage: build-data_provider
   tags:
     - docker
-    - shared
   script:
     - docker build -t "whalefisher-data_provider":"$VERSION" ./whalefisher-data_provider/
     - docker tag "whalefisher-data_provider":"$VERSION" "$CI_REGISTRY_IMAGE_DATA_PROVIDER":"$VERSION"
@@ -53,13 +52,22 @@ build-proxy:
   stage: build-proxy
   tags:
     - docker
-    - shared
   script:
     - docker build -t "nginx-proxy":"$VERSION" ./nginx-proxy/
     - docker tag "nginx-proxy":"$VERSION" "$CI_REGISTRY_IMAGE_NGINX":"$NGINX_VERSION"
     - docker tag "nginx-proxy":"$VERSION" "$CI_REGISTRY_IMAGE_NGINX":latest
     - docker push "$CI_REGISTRY_IMAGE_NGINX":"$NGINX_VERSION"
     - docker push "$CI_REGISTRY_IMAGE_NGINX":latest
+  only:
+    - master
+  when: manual
+
+deploy-stack:
+  stage: deploy-stack
+  tags:
+    - docker
+  script:
+    - docker stack deploy -c whale-fisher.yml whale
   only:
     - master
   when: manual
