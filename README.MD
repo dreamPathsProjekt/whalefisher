@@ -2,30 +2,30 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 ![GitHub (pre-)release](https://img.shields.io/badge/pre--release-0.9.1-blue.svg)
-
+[![pipeline status](https://gitlab.com/dreamPathsProjekt/whalefisher/badges/master/pipeline.svg)](https://gitlab.com/dreamPathsProjekt/whalefisher/commits/master)
 A simple read-only Docker Swarm Logging Api, to export or stream logs to HTTP from containers across different nodes inside a Swarm.
 
 > nginx-proxy based on [https://github.com/dtan4/nginx-basic-auth-proxy](https://github.com/dtan4/nginx-basic-auth-proxy) with added __docker secrets__
 
 - [WhaleFisher](#whalefisher)
-    - [Showcase](#showcase)
-    - [Installation](#installation)
-        - [Pre-requisites](#pre-requisites)
-        - [Initial setup](#initial-setup)
-        - [Docker image builds](#docker-image-builds)
-        - [Configuration & Deployment](#configuration-deployment)
-            - [Deployment & Configuration notes](#deployment-configuration-notes)
-            - [Configuration & environment variables](#configuration-environment-variables)
-            - [Deploy the stack](#deploy-the-stack)
-    - [API v0.9 Documentation](#api-v09-documentation)
-        - [Client-Browser Guidelines](#client-browser-guidelines)
-        - [Services](#services)
-        - [Service Logs and Container Logs](#service-logs-and-container-logs)
-            - [Container/Task Logs](#container-task-logs)
-            - [Service Logs](#service-logs)
-        - [General Notes](#general-notes)
-        - [Low Level Container Api](#low-level-container-api)
-    - [Future Additions - TODO](#future-additions---todo)
+  - [Showcase](#showcase)
+  - [Installation](#installation)
+    - [Pre-requisites](#pre-requisites)
+    - [Initial setup](#initial-setup)
+    - [Docker image builds](#docker-image-builds)
+    - [Configuration & Deployment](#configuration-deployment)
+      - [Deployment & Configuration notes](#deployment-configuration-notes)
+      - [Configuration & environment variables](#configuration-environment-variables)
+      - [Deploy the stack](#deploy-the-stack)
+  - [API v0.9 Documentation](#api-v09-documentation)
+    - [Client-Browser Guidelines](#client-browser-guidelines)
+    - [Services](#services)
+    - [Service Logs and Container Logs](#service-logs-and-container-logs)
+      - [Container/Task Logs](#container-task-logs)
+      - [Service Logs](#service-logs)
+    - [General Notes](#general-notes)
+    - [Low Level Container Api](#low-level-container-api)
+  - [Future Additions - TODO](#future-additions---todo)
 
 ## Showcase
 
