@@ -85,7 +85,7 @@ integration-tests:
     - response_service=$(curl -u demo:demo http://localhost/service --show-error --head | grep HTTP | awk '{print $2}')
     - "[[ $response_service == 200 ]] && service_manager=PASS || service_manager=FAIL"
     - echo "Test nginx status at 8090"
-    - respons_nginx=$(curl http://localhost:8090/nginx_status --show-error --head | grep HTTP | awk '{print $2}')
+    - response_nginx=$(curl http://localhost:8090/nginx_status --show-error --head | grep HTTP | awk '{print $2}')
     - "[[ $response_nginx == 200 ]] && nginx=PASS || nginx=FAIL"
     - echo "Test data-provider routes"
     - response_provider=$(curl http://localhost:8080/ --show-error --head | grep HTTP | awk '{print $2}')
@@ -93,7 +93,11 @@ integration-tests:
     - echo "Test data-provider containers"
     - response_container=$(curl http://localhost:8080/container --show-error --head | grep HTTP | awk '{print $2}')
     - "[[ $response_container == 200 ]] && container_provider=PASS || container_provider=FAIL"
-    - "[[ $route_manager == PASS -a $service_manager == PASS -a $nginx == PASS -a $route_provider == PASS -a $container_provider == PASS ]] && exit 0 || exit 1"
+    - "[[ $route_manager == PASS ]] && echo 'Manager Routes: PASS' || exit 1"
+    - "[[ $service_manager == PASS ]] && echo 'Manager Services: PASS' || exit 1"
+    - "[[ $nginx == PASS ]] && echo 'NGINX: PASS' || exit 1"
+    - "[[ $route_provider == PASS ]] && echo 'Data Provider Routes: PASS' || exit 1"
+    - "[[ $container_provider == PASS ]] && echo 'Data Provider Containers: PASS' || exit 1"
   only:
     - master
   when: manual
