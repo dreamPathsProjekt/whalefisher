@@ -1,0 +1,62 @@
+image: docker:latest
+
+stages:
+  - build-manager
+  - build-data_provider
+  - build-proxy
+
+services:
+  - docker:dind
+
+variables:
+  CI_REGISTRY: 'registry.gitlab.com'
+  CI_REGISTRY_IMAGE_MANAGER: 'registry.gitlab.com/dreampathsprojekt/whalefisher/whalefisher-manager'
+  CI_REGISTRY_IMAGE_DATA_PROVIDER: 'registry.gitlab.com/dreampathsprojekt/whalefisher/whalefisher-data_provider'
+  CI_REGISTRY_IMAGE_NGINX: 'registry.gitlab.com/dreampathsprojekt/whalefisher/nginx-proxy'
+  VERSION: '0.9.2.3'
+  NGINX_VERSION: '0.2'
+
+before_script:
+  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+
+build-manager:
+  stage: build-manager
+  tags:
+    - docker
+  script:
+    - docker build -t "whalefisher-manager":"$VERSION" ./whalefisher-manager/
+    - docker tag "whalefisher-manager":"$VERSION" "$CI_REGISTRY_IMAGE_MANAGER":"$VERSION"
+    - docker tag "whalefisher-manager":"$VERSION" "$CI_REGISTRY_IMAGE_MANAGER":latest
+    - docker push "$CI_REGISTRY_IMAGE_MANAGER":"$VERSION"
+    - docker push "$CI_REGISTRY_IMAGE_MANAGER":latest
+  only:
+    - master
+  when: manual
+
+build-data_provider:
+  stage: build-data_provider
+  tags:
+    - docker
+  script:
+    - docker build -t "whalefisher-data_provider":"$VERSION" ./whalefisher-data_provider/
+    - docker tag "whalefisher-data_provider":"$VERSION" "$CI_REGISTRY_IMAGE_DATA_PROVIDER":"$VERSION"
+    - docker tag "whalefisher-data_provider":"$VERSION" "$CI_REGISTRY_IMAGE_DATA_PROVIDER":latest
+    - docker push "$CI_REGISTRY_IMAGE_DATA_PROVIDER":"$VERSION"
+    - docker push "$CI_REGISTRY_IMAGE_DATA_PROVIDER":latest
+  only:
+    - master
+  when: manual
+
+build-proxy:
+  stage: build-proxy
+  tags:
+    - docker
+  script:
+    - docker build -t "nginx-proxy":"$VERSION" ./nginx-proxy/
+    - docker tag "nginx-proxy":"$VERSION" "$CI_REGISTRY_IMAGE_NGINX":"$NGINX_VERSION"
+    - docker tag "nginx-proxy":"$VERSION" "$CI_REGISTRY_IMAGE_NGINX":latest
+    - docker push "$CI_REGISTRY_IMAGE_NGINX":"$NGINX_VERSION"
+    - docker push "$CI_REGISTRY_IMAGE_NGINX":latest
+  only:
+    - master
+  when: manual
