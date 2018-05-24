@@ -5,6 +5,7 @@ stages:
   - build-data_provider
   - build-proxy
   - deploy-stack
+  - integration-tests
 
 services:
   - docker:dind
@@ -72,3 +73,27 @@ deploy-stack:
     - master
   when: manual
 
+integration-tests:
+  stage: integration-tests
+  tags:
+    - docker
+  script:
+    - echo "Test manager routes"
+    - response_manager=$(curl -u demo:demo http://localhost --show-error --head | grep HTTP | awk '{print $2}')
+    - "[[ $response_manager == 200 ]] && route_manager=PASS || route_manager=FAIL"
+    - echo "Test manager services"
+    - response_service=$(curl -u demo:demo http://localhost/service --show-error --head | grep HTTP | awk '{print $2}')
+    - "[[ $response_service == 200 ]] && service_manager=PASS || service_manager=FAIL"
+    - echo "Test nginx status at 8090"
+    - respons_nginx=$(curl http://localhost:8090/nginx_status --show-error --head | grep HTTP | awk '{print $2}')
+    - "[[ $response_nginx == 200 ]] && nginx=PASS || nginx=FAIL"
+    - echo "Test data-provider routes"
+    - response_provider=$(curl http://localhost:8080/ --show-error --head | grep HTTP | awk '{print $2}')
+    - "[[ $response_provider == 200 ]] && route_provider=PASS || route_provider=FAIL"
+    - echo "Test data-provider containers"
+    - response_container=$(curl http://localhost:8080/container --show-error --head | grep HTTP | awk '{print $2}')
+    - "[[ $response_container == 200 ]] && container_provider=PASS || container_provider=FAIL"
+    - "[[ $route_manager == PASS -a $service_manager == PASS -a $nginx == PASS -a $route_provider == PASS -a $container_provider == PASS ]] && exit 0 || exit 1"
+  only:
+    - master
+  when: manual
