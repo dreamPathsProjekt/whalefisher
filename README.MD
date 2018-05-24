@@ -3,6 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 ![GitHub (pre-)release](https://img.shields.io/badge/pre--release-0.9.1-blue.svg)
 [![pipeline status](https://gitlab.com/dreamPathsProjekt/whalefisher/badges/master/pipeline.svg)](https://gitlab.com/dreamPathsProjekt/whalefisher/commits/master)
+
 A simple read-only Docker Swarm Logging Api, to export or stream logs to HTTP from containers across different nodes inside a Swarm.
 
 > nginx-proxy based on [https://github.com/dtan4/nginx-basic-auth-proxy](https://github.com/dtan4/nginx-basic-auth-proxy) with added __docker secrets__
