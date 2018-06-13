@@ -106,6 +106,7 @@ version: "3.3"
     # 0.9.1 Add timestamp on json logs
     # 0.9.2 Add version=auto, 0.9.2.2 when type of tail != int automatically throws 404
     # 0.9.2.3 If lines < 5 abort(400)
+    # 0.9.3 Fix worker bug
 
     # Reminder to change data-provider port on each environment
 
@@ -134,7 +135,7 @@ services:
       - 8090:8090
 
   whalefisher-manager:
-    image: registry.gitlab.com/dreampathsprojekt/whalefisher/whalefisher-manager:0.9.2.3
+    image: registry.gitlab.com/dreampathsprojekt/whalefisher/whalefisher-manager:0.9.3
     deploy:
       replicas: 1
       placement:
@@ -152,7 +153,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   whalefisher-data_provider:
-    image: registry.gitlab.com/dreampathsprojekt/whalefisher/whalefisher-data_provider:0.9.2.3
+    image: registry.gitlab.com/dreampathsprojekt/whalefisher/whalefisher-data_provider:0.9.3
     deploy:
       mode: global
       endpoint_mode: dnsrr

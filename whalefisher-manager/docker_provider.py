@@ -163,6 +163,8 @@ def get_node_json():
                 node_ip = node.attrs['ManagerStatus']['Addr'].split(':')[0]
             else:
                 node_ip = node.attrs['Status']['Addr']
+        else:
+            node_ip = node.attrs['Status']['Addr']
 
         nodes_dict = dict(id=node.id,
                           availability=node.attrs['Spec']['Availability'],
