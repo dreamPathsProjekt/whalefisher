@@ -119,7 +119,7 @@ secrets:
 services:
 
   nginx-proxy:
-    image: registry.gitlab.com/dreampathsprojekt/whalefisher/nginx-proxy:0.2
+    image: dreampathsprojekt/whalefisher-proxy:0.9.3
     deploy:
       replicas: 1
     secrets:
@@ -135,7 +135,7 @@ services:
       - 8090:8090
 
   whalefisher-manager:
-    image: registry.gitlab.com/dreampathsprojekt/whalefisher/whalefisher-manager:0.9.3
+    image: dreampathsprojekt/whalefisher-manager:0.9.3
     deploy:
       replicas: 1
       placement:
@@ -153,7 +153,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   whalefisher-data_provider:
-    image: registry.gitlab.com/dreampathsprojekt/whalefisher/whalefisher-data_provider:0.9.3
+    image: dreampathsprojekt/whalefisher-data_provider:0.9.3
     deploy:
       mode: global
       endpoint_mode: dnsrr
