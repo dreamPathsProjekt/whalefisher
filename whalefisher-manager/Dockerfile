@@ -13,11 +13,12 @@ ADD ./setup.py /usr/src/whalefisher/setup.py
 
 # install requirements
 # RUN sudo apt-get install python3.6-dev
-RUN python setup.py install
+RUN python setup.py install && \
+    pip install gunicorn
 
 # add app
 ADD . /usr/src/whalefisher/
 
 # run server
-CMD ["python", "app.py"]
+CMD ["gunicorn", "--workers", "3", "--bind", "0.0.0.0:8000", "wsgi"]
 
