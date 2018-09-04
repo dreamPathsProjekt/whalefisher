@@ -20,5 +20,5 @@ RUN python setup.py install && \
 ADD . /usr/src/whalefisher/
 
 # run server
-CMD ["gunicorn", "--workers", "3", "--bind", "0.0.0.0:5000", "app:app"]
+CMD ["gunicorn", "--workers", "3", "--timeout", "3000", "--bind", "0.0.0.0:5000", "app:app"]
 
